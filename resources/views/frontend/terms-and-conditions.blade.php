@@ -269,7 +269,7 @@
                     Terms of Service constitutes acceptance of those changes.</p>
                 <h6 class="pb-3">SECTION 20 - CONTACT INFORMATION </h6>
                 <p>Questions about the Terms of Service should be sent to us at
-                    channeltheshop@yahoo.co.in </p>
+                    support@channelonline.in </p>
 
 
             </div>
@@ -278,4 +278,4 @@
 
 
 
-@endsection 
+@endsection

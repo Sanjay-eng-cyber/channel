@@ -8,6 +8,7 @@ use App\Models\CartItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class CartController extends Controller
 {
@@ -36,25 +37,17 @@ class CartController extends Controller
     public function addToCart(Request $request)
     {
         $product = Product::findOrFail($request->product_id);
-        // dd($product);
-        $user = auth()->user();
-        if ($user) {
-            $cart = Cart::updateOrCreate([
-                'user_id' => $user->id
-            ]);
-            // dd($cart);
-        } else {
-            $cart_session_id = session()->get('cart_session_id');
-            if (!$cart_session_id) {
-                $cart_session_id = now()->format('dmyhis') . rand(100, 999);
-                session()->put('cart_session_id', now()->format('dmyhis') . rand(100, 999));
-            }
-            $cart = Cart::updateOrCreate([
-                'session_id' => $cart_session_id
-            ]);
+        // dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'nullable|numeric|min:1|max:50'
+        ]);
+        $cart = getUserCart();
+        if ($validator->fails()) {
+            return response()->json(['status' => true, 'addToCart' => 0, 'count' => $cart->items()->count(), 'message' => 'Quantity is Incorrect']);
         }
-        // Log::info("Cart Id: " . $cart->id);
-
+        if ($product->stock < $request->quantity) {
+            return response()->json(['status' => true, 'addToCart' => 0, 'count' => $cart->items()->count(), 'message' => 'Item Quantity Exceeds Stock']);
+        }
         $productInCart = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
         if ($productInCart) {
             $productInCart->delete();
@@ -62,7 +55,8 @@ class CartController extends Controller
         } else {
             CartItem::create([
                 'cart_id' => $cart->id,
-                'product_id' => $product->id
+                'product_id' => $product->id,
+                'quantity' => $request->quantity ?? 1
             ]);
             return response()->json(['status' => true, 'addToCart' => 1, 'count' => $cart->items()->count(), 'message' => 'Product Added to Cart']);
         }
@@ -99,7 +93,7 @@ class CartController extends Controller
             $cartItemsArr[$key]['item_id'] = $item->id;
             $cartItemsArr[$key]['name'] = $item->product->name;
             $cartItemsArr[$key]['slug'] = $item->product->slug;
-            $cartItemsArr[$key]['thumbnail_image'] = asset('storage/images/products/' . $item->product->thumbnail_image);
+            $cartItemsArr[$key]['thumbnail_image'] = asset('storage/images/products/thumbnails/' . $item->product->thumbnail_image);
             // $cartItemsArr[$key]['thumbnail_image'] = $item->product->thumbnail_image;
             $cartItemsArr[$key]['mrp'] = $item->product->mrp;
             $cartItemsArr[$key]['final_price'] = $item->product->final_price;
@@ -117,22 +111,7 @@ class CartController extends Controller
     {
         // dd($request->product_id);
         $product = Product::findOrFail($request->product_id);
-        $user = auth()->user();
-        if ($user) {
-            $cart = Cart::updateOrCreate([
-                'user_id' => $user->id
-            ]);
-            // dd($cart);
-        } else {
-            $cart_session_id = session()->get('cart_session_id');
-            if (!$cart_session_id) {
-                $cart_session_id = now()->format('dmyhis') . rand(100, 999);
-                session()->put('cart_session_id', now()->format('dmyhis') . rand(100, 999));
-            }
-            $cart = Cart::updateOrCreate([
-                'session_id' => $cart_session_id
-            ]);
-        }
+        $cart = getUserCart();
 
         $productInCart = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->with('product')->first();
         if ($productInCart) {
@@ -153,22 +132,7 @@ class CartController extends Controller
     {
         // dd($request->product_id);
         $product = Product::findOrFail($request->product_id);
-        $user = auth()->user();
-        if ($user) {
-            $cart = Cart::updateOrCreate([
-                'user_id' => $user->id
-            ]);
-            // dd($cart);
-        } else {
-            $cart_session_id = session()->get('cart_session_id');
-            if (!$cart_session_id) {
-                $cart_session_id = now()->format('dmyhis') . rand(100, 999);
-                session()->put('cart_session_id', now()->format('dmyhis') . rand(100, 999));
-            }
-            $cart = Cart::updateOrCreate([
-                'session_id' => $cart_session_id
-            ]);
-        }
+        $cart = getUserCart();
 
         $productInCart = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
         if ($productInCart->quantity == 1) {

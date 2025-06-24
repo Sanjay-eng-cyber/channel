@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Create Sub Category')
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -16,7 +16,8 @@
                             <nav class="breadcrumb-two" aria-label="breadcrumb">
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page"><a href="javascript:void(0);">Create Sub
+                                    <li class="breadcrumb-item active" aria-current="page"><a
+                                            href="javascript:void(0);">Create Sub
                                             Category</a></li>
                                 </ol>
                             </nav>
@@ -55,15 +56,15 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-xl-12  col-md-6 col-sm-12 py-2">
+                                {{-- <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="formGroupExampleInput" class="">Image</label>
                                     <input type="file" class="form-control" id="formGroupExampleInput"required
                                         name="image">
                                     @if ($errors->has('image'))
                                         <div class="text-danger" role="alert">{{ $errors->first('image') }}</div>
                                     @endif
-                                </div>
-                                <div class="col-xl-12  col-md-6 col-sm-12 py-2">
+                                </div> --}}
+                                {{-- <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="degree2">Description</label>
                                     <textarea class="form-control" placeholder="Enter Description" rows="3" name="descriptions" minlength="3"
                                         maxlength="250">{{ old('descriptions') }}</textarea>
@@ -71,7 +72,7 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
                                         </div>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
                             <input type="submit" class="btn btn-primary">
                         </form>

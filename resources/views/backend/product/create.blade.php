@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Product Create')
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -17,207 +17,290 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page"><a href="javascript:void(0);">
-                                          Create  Product</a></li>
+                                            Create Product</a></li>
                                 </ol>
                             </nav>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="statbox widget box box-shadow temp-a col-md-12">
+            <div class="statbox widget box box-shadow col-md-12">
                 <div class="row m-0">
                     <div class="col-12">
                         <form class="mt-3" method="POST" action="{{ route('backend.product.store') }}"
                             enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             <div class="form-group mb-3 row">
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="formGroupExampleInput" class="">Name</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter Name" minlength="3" maxlength="250" required name="name"
-                                        value="{{ old('name') }}">
-                                    @if ($errors->has('name'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('name') }}</div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Brand</label>
-                                    <select class="form-control" name="brand_id">
-                                        <option value="">Select Any Brand</option>
-                                        @foreach ($brands as $brand)
-                                            <option value="{{ $brand->id }}"
-                                                @if (old('brand_id') == $brand->id) {{ 'selected' }} @endif>
-                                                {{ $brand->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('brand_id'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('brand_id') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Category</label>
-                                    <select class="form-control" name="category_id" id="sel1"
-                                        onchange="getValues()" required>
-                                        <option value="">Select Any Category</option>
-                                        @foreach ($categorys as $category)
-                                            <option value="{{ $category->id }}"
-                                                @if (old('category_id') == $category->id) {{ 'selected' }} @endif>
-                                                {{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('category_id'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('category_id') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Sub Category</label>
-                                    <select class="form-control" name="sub_category_id" id="sub">
-                                        <option value="">Select Any Sub Category</option>
-                                    </select>
-                                    @if ($errors->has('sub_category_id'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('sub_category_id') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
+                                <div class="form-group mb-3 row">
+                                    <div class="col-xl-9 col-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Name*</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Name" minlength="3" maxlength="250" required name="name"
+                                            value="{{ old('name') }}">
+                                        @if ($errors->has('name'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('name') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Brand</label>
+                                        <select class="form-control" name="brand_id">
+                                            <option value="">Select Any Brand</option>
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}"
+                                                    @if (old('brand_id') == $brand->id) {{ 'selected' }} @endif>
+                                                    {{ $brand->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('brand_id'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('brand_id') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Category*</label>
+                                        <select class="form-control" name="category_id" id="sel1"
+                                            onchange="getValues()" required>
+                                            <option value="">Select Any Category</option>
+                                            @foreach ($categorys as $category)
+                                                <option value="{{ $category->id }}"
+                                                    @if (old('category_id') == $category->id) {{ 'selected' }} @endif>
+                                                    {{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @if ($errors->has('category_id'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('category_id') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Sub Category</label>
+                                        <select class="form-control" name="sub_category_id" id="sub">
+                                            <option value="">Select Any Sub Category</option>
+                                        </select>
+                                        @if ($errors->has('sub_category_id'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('sub_category_id') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    {{-- <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
                                     <label for="formGroupExampleInput" class="">Connection No.</label>
                                     <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter Connection No." required minlength="3" maxlength="20" name="connection_no" value="{{ old('connection_no') }}">
+                                        placeholder="Enter Connection No." minlength="3" maxlength="20" name="connection_no" value="{{ old('connection_no') }}">
                                     @if ($errors->has('connection_no'))
                                         <div class="text-danger" role="alert">{{ $errors->first('connection_no') }}</div>
                                     @endif
-                                </div>
-                                <div class="col-xl-6 col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Image</label>
-                                    <input class="form-control" name="image[]" type="file" id="image" multiple />
-                                    @if ($errors->has('image'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('image') }}
-                                        </div>
-                                    @endif
-                                    @if ($errors->has('image.*'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('image.*') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Thumbnail Image</label>
-                                    <input class="form-control" name="thumbnail_image" type="file" id="image" required>
-                                    @if ($errors->has('thumbnail_image'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('thumbnail_image') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="formGroupExampleInput" class="">MRP</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter Mrp" required name="mrp" value="{{ old('mrp') }}">
-                                    @if ($errors->has('mrp'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('mrp') }}</div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="formGroupExampleInput" class="">Final Price</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter Final Price" required
-                                        name="final_price" value="{{ old('final_price') }}">
-                                    @if ($errors->has('final_price'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('final_price') }}</div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="formGroupExampleInput" class="">Stock</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter Stock" required name="stock" value="{{ old('stock') }}">
-                                    @if ($errors->has('stock'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('stock') }}</div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="formGroupExampleInput" class="">SKU</label>
-                                    <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter SKU" required name="sku" value="{{ old('sku') }}">
-                                    @if ($errors->has('sku'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('sku') }}</div>
-                                    @endif
-                                </div>
-
-                                <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                    <label for="formGroupExampleInput" class="">Short Descriptions</label>
-                                   <textarea name="short_descriptions" rows="5" cols="50" class="form-control"minlength="3" maxlength="5000" required>{{old('short_descriptions')}}</textarea>
-                                    @if ($errors->has('short_descriptions'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('short_descriptions') }}</div>
-                                    @endif
-                                </div>
-
-                                @foreach ($attributes as $attribute)
-                                    <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                        <input hidden name="attributeKeys[]" value="{{ $attribute->id }}">
-                                        <label for="degree2">{{ $attribute->name }}</label>
-                                        <select class="form-control" name="values[]">
-                                            <option value="">Select Any Attribute</option>
-                                            @foreach ($attribute->values()->get() as $attrbuteValue)
-                                                <option value="{{ $attrbuteValue->id }}"
-                                                    @if (old('values') == $attrbuteValue->id) {{ 'selected' }} @endif>
-                                                    {{ $attrbuteValue->name }}</option>
-                                            @endforeach
-                                        </select>
+                                </div> --}}
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Thumbnail Image*</label>
+                                        <input class="form-control" name="thumbnail_image" type="file" id="image"
+                                            required>
+                                        @if ($errors->has('thumbnail_image'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('thumbnail_image') }}
+                                            </div>
+                                        @endif
                                     </div>
-                                @endforeach
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Image*</label>
+                                        <input class="form-control" name="image[]" type="file" id="image" multiple
+                                            required />
+                                        @if ($errors->has('image'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('image') }}
+                                            </div>
+                                        @endif
+                                        @if ($errors->has('image.*'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('image.*') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">MRP*</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Mrp" required name="mrp" value="{{ old('mrp') }}">
+                                        @if ($errors->has('mrp'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('mrp') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Final Price*</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Final Price" required name="final_price"
+                                            value="{{ old('final_price') }}">
+                                        @if ($errors->has('final_price'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('final_price') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Stock*</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Stock" required name="stock"
+                                            value="{{ old('stock') }}">
+                                        @if ($errors->has('stock'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('stock') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">SKU*</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter SKU" required name="sku" value="{{ old('sku') }}" maxlength="120">
+                                        @if ($errors->has('sku'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('sku') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="formGroupExampleInput" class="">Short Descriptions</label>
+                                        <textarea name="short_descriptions" rows="3" cols="50" placeholder="Enter Short Description"
+                                            class="form-control" minlength="3" maxlength="5000">{{ old('short_descriptions') }}</textarea>
+                                        @if ($errors->has('short_descriptions'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('short_descriptions') }}</div>
+                                        @endif
+                                    </div>
 
-                                {{-- <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Attribute</label>
-                                    <select class="form-control mb-4" name="attribute_id">
-                                        <option value="">Select Any Attribute</option>
-                                        @foreach (ProductAttributeValue()->where('attribute_id', '1')->get() as $attrbutes)
-                                            <option value="{{ $attrbutes->id }}"
-                                                @if (old('attribute_id') == $attrbutes->id) {{ 'selected' }} @endif>
-                                                {{ $attrbutes->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('attribute_id'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('attribute_id') }}
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tags">Tags</label>
+                                        <select class="form-control tagging" name="tags[]" minlength="3"
+                                            maxlength="30" multiple="multiple">
+                                            @if (old('tags'))
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->name }}"
+                                                        @if (in_array($tag->name, old('tags'))) {{ 'selected' }} @endif>
+                                                        {{ $tag->name }}
+                                                    </option>
+                                                @endforeach
+                                            @else
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        @if ($errors->has('tags'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('tags') }}
+                                            </div>
+                                        @endif
+                                        @if ($errors->has('tags.*'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('tags.*') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+                                        <label for="formGroupExampleInput" class="">Unit Sale Price</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Unit Sale Price" name="unit_sale_price"
+                                            value="{{ old('unit_sale_price') }}" minlength="2" maxlength="30">
+                                        @if ($errors->has('unit_sale_price'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('unit_sale_price') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+                                        <label for="formGroupExampleInput" class="">Skin Type</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Skin Type" name="skin_type"
+                                            value="{{ old('skin_type') }}" minlength="2" maxlength="120">
+                                        @if ($errors->has('skin_type'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('skin_type') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+                                        <label for="formGroupExampleInput" class="">Material</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Material" name="material" value="{{ old('material') }}"
+                                            minlength="2" maxlength="120">
+                                        @if ($errors->has('material'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('material') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Expiry</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Expiry" name="expiry" value="{{ old('expiry') }}"
+                                            minlength="2" maxlength="120">
+                                        @if ($errors->has('expiry'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('expiry') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Net Quantity</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Net Quantity" name="net_quantity"
+                                            value="{{ old('net_quantity') }}" minlength="2" maxlength="120">
+                                        @if ($errors->has('net_quantity'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('net_quantity') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-9 col-md-6 col-sm-12 mb-3 d-none d-xl-block">
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 mb-6">
+                                        <label for="formGroupExampleInput" class="">Special Ingredients</label>
+                                        <textarea type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter Special Ingredients"
+                                            name="special_ingredients" minlength="2" maxlength="3000" rows="3" cols="50">{{ old('special_ingredients') }}</textarea>
+                                        @if ($errors->has('special_ingredients'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('special_ingredients') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-xl-6 col-md-6 col-sm-12 mb-6">
+                                        <label for="formGroupExampleInput" class="">Care Instruction</label>
+                                        <textarea type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter Care Instruction"
+                                            name="care_instruction" minlength="2" maxlength="3000" rows="3" cols="50">{{ old('care_instruction') }}</textarea>
+                                        @if ($errors->has('care_instruction'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('care_instruction') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-12 mb-3">
+                                        <label for="descriptions">Description</label>
+                                        <textarea id="team-about" class="team-about" name="descriptions" minlength="3" maxlength="20000">{{ old('descriptions') }}</textarea>
+                                        @if ($errors->has('descriptions'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-12">
+                                        <label for="descriptions">Attributes:</label><br>
+                                    </div>
+                                    @foreach ($attributes as $attribute)
+                                        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                            <input hidden name="attributeKeys[]" value="{{ $attribute->id }}">
+                                            <label for="degree2">{{ $attribute->name }}</label>
+                                            <select class="form-control" name="values[]">
+                                                <option value="">Select Any Attribute</option>
+                                                @foreach ($attribute->values()->get() as $attrbuteValue)
+                                                    <option value="{{ $attrbuteValue->id }}"
+                                                        @if (old('values') == $attrbuteValue->id) {{ 'selected' }} @endif>
+                                                        {{ $attrbuteValue->name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
-                                    @endif
-                                </div> --}}
-                                {{-- <div class="col-xl-6 col-lg-4 col-md-6 col-sm-12 mb-3">
-                                    <label for="degree2">Attribute Value</label>
-                                    <select class="form-control mb-4" name="product_attribute_value_id">
-                                        <option value="">Select Any Attribute Value</option>
-                                        @foreach ($productAttributeValues as $productAttributeValue)
-                                            <option value="{{ $productAttributeValue->id }}"
-                                                @if (old('attribute_id') == $productAttributeValue->id) {{ 'selected' }} @endif>
-                                                {{ $productAttributeValue->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @if ($errors->has('product_attribute_value_id'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('product_attribute_value_id') }}
-                                        </div>
-                                    @endif
-                                </div> --}}
-                                <div class="col-xl-12  col-md-6 col-sm-12 mb-3">
-                                    <label for="descriptions">Showcase</label><br>
-                                    @foreach ($showcases as $showcase)
-                                        {{-- @dd($showcase) --}}
-                                        <label for="{{ $showcase->id }}">{{ $showcase->name }}</label>
-                                        <input type="checkbox" id="{{ $showcase->id }}" name="showcases[]"
-                                            value="{{ $showcase->id }}"
-                                            @if (old('showcases') && in_array($showcase->id, old('showcases'))) {{ 'checked' }} @endif>
                                     @endforeach
 
-                                    @if ($errors->has('showcases'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('showcases') }}
-                                        </div>
-                                    @endif
-                                </div>
-                                <div class="col-xl-12  col-sm-12 mb-3">
-                                    <label for="descriptions">Description</label>
-                                    <textarea id="team-about" name="descriptions" minlength="3" maxlength="20000" >{{ old('descriptions') }}</textarea>
-                                    @if ($errors->has('descriptions'))
-                                        <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
-                                        </div>
-                                    @endif
+                                    <div class="col-12 mb-3">
+                                        <label for="descriptions">Showcase :</label><br>
+                                        @foreach ($showcases as $showcase)
+                                            {{-- @dd($showcase) --}}
+                                            <input type="checkbox" id="{{ $showcase->id }}" name="showcases[]"
+                                                value="{{ $showcase->id }}"
+                                                @if (old('showcases') && in_array($showcase->id, old('showcases'))) {{ 'checked' }} @endif>
+                                            <label for="{{ $showcase->id }}">{{ $showcase->name }}</label>
+                                        @endforeach
+
+                                        @if ($errors->has('showcases'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('showcases') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+
+
                                 </div>
                             </div>
                             <input type="submit" class="btn btn-primary">
@@ -227,13 +310,16 @@
             </div>
         </div>
     </div>
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/select2/select2.min.css') }}">
 @endsection
 @section('js')
-    <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/4/tinymce.min.js">
-    </script>
+    <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('plugins/select2/custom-select2.js') }}"></script>
+    {{-- <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/4/tinymce.min.js">
+    </script> --}}
     <script>
         tinymce.init({
-            selector: '#team-about',
+            selector: '.team-about',
             height: 200,
             plugins: 'textcolor colorpicker lists link',
             toolbar: "formatselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist | link | outdent indent  | removeformat",
@@ -285,5 +371,9 @@
                 })
             }
         }
+        $(".tagging").select2({
+            tags: true,
+            placeholder: "Select / Enter Tags",
+        });
     </script>
 @endsection

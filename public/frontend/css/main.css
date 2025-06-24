@@ -125,7 +125,7 @@
 
 /* // justify nav
 %justify {
- text-align: justify; 
+ text-align: justify;
  font-size: 1px;
  line-height: 0px;
  > * {
@@ -135,7 +135,7 @@
   font-size: $font-size-base;
   line-height: $line-height-base;
  }
- &:after { 
+ &:after {
   content: '';
   width: 100%;
   display: inline-block;
@@ -173,10 +173,10 @@ a:hover {
 /*------------------------------------------------------------------
 3. Mt Header / #mt-header
 -------------------------------------------------------------------*/
-#mt-header {
+/* #mt-header {
   z-index: 4;
   position: relative;
-}
+} */
 
 #mt-header a:hover {
   text-decoration: none;
@@ -1192,6 +1192,7 @@ a:hover {
   left: 0;
   right: 0;
   position: fixed;
+  z-index: 99999;
   -webkit-box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.1);
 }
@@ -3544,7 +3545,7 @@ a:hover {
   font-size: 12px;
   line-height: 20px;
   overflow: hidden;
-  font-family: "Oxygen", sans-serif;
+  font-family: "Poppins", sans-serif;
   letter-spacing: 1px;
   color: #353535;
 }
@@ -3557,7 +3558,7 @@ a:hover {
   margin: 0 0 1px;
   color: #353535;
   text-transform: uppercase;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .f-promo-box .f-widget-item .txt {
@@ -7160,7 +7161,7 @@ a:hover {
   margin: 0 7px;
   cursor: pointer;
   background: #fff;
-  border: 1px solid #ededed;
+  /* border: 1px solid #ededed; */
   border-top: 0;
 }
 

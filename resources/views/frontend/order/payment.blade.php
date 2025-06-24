@@ -48,7 +48,7 @@
                                     {{-- <img src="https://via.placeholder.com/100"
                                         class="w-auto my-2 rounded-2 border border-1 pink-border me-3" height="100px"
                                         width="100px" alt=""> --}}
-                                    <img src="{{ asset('storage/images/products/' . $cartItem->product->thumbnail_image) }}"
+                                    <img src="{{ asset('storage/images/products/thumbnails/' . $cartItem->product->thumbnail_image) }}"
                                         alt="..." class="my-2 rounded-2 border border-1 pink-border me-3 cart-p-img">
                                     <div class="mt-1">
                                         <p class="mb-1 text-black">{{ $cartItem->product->name }}</p>
@@ -96,7 +96,7 @@
                                 @csrf
                                 <input type="text" class="form-control" placeholder="Enter Coupon Code"
                                     style="max-width: 221px;" name="coupon"
-                                    value="{{ session()->has('coupon') ? session('coupon') : null }}" disabled>
+                                    value="{{ session()->has('coupon') ? session('coupon')->code : null }}" disabled>
                                 {{-- <button type="submit" class="btn btn-outline-pink-hover p-1 p-xl-2 text-end ml-2">
                                     Apply Coupon
                                 </button> --}}
@@ -118,10 +118,10 @@
                             ₹{{ $subTotal }}
                         </span>
                     </div>
-                    @if (session()->has('coupon'))
+                    @if (session()->has('discount'))
                         <div class="d-flex justify-content-between align-items-center text-muted my-1">
                             <span>
-                                Discount:
+                                Coupon Discount:
                             </span>
                             <span>
                                 ₹{{ $discount }}
@@ -181,8 +181,8 @@
             "order_id": "{{ $order['api_order_id'] }}",
             "callback_url": "{{ route('razorpay.callback') }}",
             "prefill": {
-                "name": "Tiru",
-                "email": "tiru@gmail.com",
+                "name": "User",
+                "email": "user@gmail.com",
                 "contact": "1234567890"
             },
             "notes": {

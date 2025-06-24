@@ -1,6 +1,12 @@
 <?php
 
+use App\Models\Tag;
+use App\Models\Cart;
+use App\Models\Product;
+use Seshac\Shiprocket\Shiprocket;
+use Illuminate\Support\Facades\Log;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -165,5 +171,72 @@ if (!function_exists('replaceBracket')) {
         $s = str_replace("(", "", $s);
         $s = str_replace(")", "", $s);
         return $s;
+    }
+}
+
+/**
+ *  Generate 8 character random string
+ */
+
+if (!function_exists('struniq')) {
+    function struniq()
+    {
+        return substr(uniqid(), 11) . rand(10, 99) . substr(strtotime(now()), 6);
+    }
+}
+
+if (!function_exists('getShiprocketToken')) {
+    function getShiprocketToken()
+    {
+        $configToken = App\Models\ShiprocketConfig::where('name', 'token')->where('validity', '>', now())->first();
+        // dd($configToken);
+        if ($configToken) {
+            $token = decrypt($configToken->value);
+        } else {
+            $token =  Shiprocket::getToken() ?? null;
+            if ($token) {
+                $configToken = App\Models\ShiprocketConfig::updateOrCreate(
+                    ['name' => 'token'],
+                    [
+                        'value' => encrypt($token),
+                        'validity' => Carbon\Carbon::now()->addHours(9)
+                    ]
+                );
+            }
+        }
+        return $token ?? '';
+    }
+}
+
+if (!function_exists('generateOrderNo')) {
+    function generateOrderNo()
+    {
+        do {
+            $order_no = 'ord_' . now()->format('dmyhis') . rand(10, 99);
+        } while (App\Models\Order::where('order_no', $order_no)->exists());
+
+        return $order_no;
+    }
+}
+
+if (!function_exists('getUserCart')) {
+    function getUserCart()
+    {
+        $user = auth()->user();
+        if ($user) {
+            $cart = Cart::updateOrCreate([
+                'user_id' => $user->id
+            ]);
+        } else {
+            $cart_session_id = session()->get('cart_session_id');
+            if (!$cart_session_id) {
+                $cart_session_id = now()->format('dmyhis') . rand(100, 999);
+                session()->put('cart_session_id', $cart_session_id);
+            }
+            $cart = Cart::updateOrCreate([
+                'session_id' => $cart_session_id
+            ]);
+        }
+        return $cart;
     }
 }

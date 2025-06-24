@@ -46,17 +46,18 @@
                             <div class="row my-3">
 
                                 @forelse ($userAddresses as $address)
-                                    <div class="col-12 user-address-box-holder">
+                                    <div class="col-12 col-sm-6 user-address-box-holder">
                                         <input type="radio" name="address" value="{{ $address->id }}"
-                                            id="user-address-{{ $address->id }}" class="d-none">
+                                            id="user-address-{{ $address->id }}" class="d-none"
+                                            @if ($address->type == 'primary') {{ 'checked' }} @endif>
                                         <label for="user-address-{{ $address->id }}"
-                                            class="user-address-box w-100 p-2 cur-pointer">
+                                            class="user-address-box w-100 px-3 py-4 cur-pointer">
                                             <div class="address-header">
                                                 <span class="name">
                                                     {{ ucfirst($address->type) }}
                                                 </span>
                                             </div>
-                                            <h6 class="h6 font-body text-capitalize">
+                                            <h6 class="h6 font-body text-capitalize my-3">
                                                 {{ $address->name }}
                                             </h6>
                                             <p class="tex-capitalize">
@@ -72,7 +73,7 @@
                                 @endforelse
 
                             </div>
-                            <button class="btn btn-pink" data-bs-toggle="modal" type="button"
+                            <button class="btn btn-pink px-4" data-bs-toggle="modal" type="button"
                                 data-bs-target="#addressFormPopup">
                                 +Add Address
                             </button>
@@ -90,7 +91,7 @@
 
                         @foreach ($cartItems as $cartItem)
                             <div class="col-12 d-flex">
-                                <img src="{{ asset('storage/images/products/' . $cartItem->product->thumbnail_image) }}"
+                                <img src="{{ asset('storage/images/products/thumbnails/' . $cartItem->product->thumbnail_image) }}"
                                     alt="..." class="my-2 rounded-2 border border-1 pink-border me-3 cart-p-img">
                                 <div class="mt-1">
                                     <p class="mb-1 text-black">{{ $cartItem->product->name }}</p>
@@ -108,9 +109,10 @@
                             <div class="input-group my-2">
                                 <input type="text" class="form-control" placeholder="Enter Coupon Code"
                                     style="max-width: 221px;" name="coupon"
-                                    value="{{ session()->has('coupon') ? session('coupon') : null }}" disabled>
+                                    value="{{ session()->has('coupon') ? session('coupon')->code : null }}" disabled>
                                 <a href="{{ route('frontend.remove-coupon') }}">
-                                    <button type="button" class="btn btn-outline-pink-hover h-100 p-1 p-xl-2 text-end ml-2">
+                                    <button type="button"
+                                        class="btn btn-outline-pink-hover h-100 p-1 p-xl-2 text-end ml-2">
                                         Remove Coupon
                                     </button>
                                 </a>
@@ -121,9 +123,9 @@
                                 @csrf
                                 <div class="input-group my-2">
                                     <input type="text" class="form-control" placeholder="Enter Coupon Code"
-                                        style="max-width: 221px;" name="coupon"
-                                        value="{{ session()->has('coupon') ? session('coupon') : null }}" required>
-                                    <button type="submit" class="btn btn-outline-pink-hover h-100 p-1 p-xl-2 text-end ml-2">
+                                        style="max-width: 221px;" name="coupon" required>
+                                    <button type="submit"
+                                        class="btn btn-outline-pink-hover h-100 p-1 p-xl-2 text-end ml-2">
                                         Apply Coupon
                                     </button>
                                 </div>
@@ -147,10 +149,10 @@
                             ₹{{ $subTotal }}
                         </span>
                     </div>
-                    @if (session()->has('coupon'))
+                    @if (session()->has('discount'))
                         <div class="d-flex justify-content-between align-items-center text-muted my-1">
                             <span>
-                                Discount:
+                                Coupon Discount:
                             </span>
                             <span>
                                 ₹{{ $discount }}
@@ -183,7 +185,7 @@
                     </div>
 
                     <div class="d-flex justify-content-center justify-content-md-end text-muted my-3">
-                        <button type="submit" form="checkout_form" class="btn btn-outline-pink-hover p-1 p-xl-2 text-end">
+                        <button type="submit" form="checkout_form" class="btn btn-outline-pink-hover px-4 text-end">
                             Proceed To Payment
                         </button>
                     </div>
@@ -208,58 +210,76 @@
 
                         {{-- if otp not send --}}
                         <div class="auth-popup-body">
-                            <form class="row" action="{{ route('frontend.address.update') }}" method="post">
+                            <form class="row" action="{{ route('frontend.address.store') }}" method="post">
                                 @csrf
                                 <h5 class="main-head text-red">Add Address</h5>
 
                                 <div class="form-group py-2 req-input">
-                                    <input type="text" name="name" class=" profile-form-input-custome "
-                                        placeholder="Name" required minlength="3" maxlength="20" required>
-                                    @if ($errors->has('name'))
+                                    <input type="text" name="name" value="{{ old('name') }}"
+                                        class=" profile-form-input-custome " placeholder="Name" required minlength="3"
+                                        maxlength="20" required>
+                                    @if (session()->has('store-form-error') && $errors->has('name'))
                                         <div id="name-error" class="text-danger text-start">
                                             {{ $errors->first('name') }}</div>
                                     @endif
                                 </div>
                                 <div class="form-group py-2 req-input-2">
-                                    <input type="text" name="street_address" class=" profile-form-input-custome"
-                                        placeholder="Street Address" required minlength="5" maxlength="80" required>
-                                    @if ($errors->has('street_address'))
+                                    <input type="text" name="street_address" value="{{ old('street_address') }}"
+                                        class=" profile-form-input-custome" placeholder="Street Address" required
+                                        minlength="5" maxlength="80" required>
+                                    @if (session()->has('store-form-error') && $errors->has('street_address'))
                                         <div id="street_address-error" class="text-danger text-start">
                                             {{ $errors->first('street_address') }}</div>
                                     @endif
                                 </div>
 
                                 <div class="form-group py-2 col-md-6">
-                                    <input type="text" name="city" class=" profile-form-input-custome"
-                                        placeholder="City" minlength="3" maxlength="20" required>
-                                    @if ($errors->has('city'))
+                                    <input type="text" name="city" value="{{ old('city') }}"
+                                        class=" profile-form-input-custome" placeholder="City" minlength="3"
+                                        maxlength="20" required>
+                                    @if (session()->has('store-form-error') && $errors->has('city'))
                                         <div id="city-error" class="text-danger text-start">{{ $errors->first('city') }}
                                         </div>
                                     @endif
                                 </div>
 
                                 <div class="form-group py-2 col-md-6">
-                                    <input type="text" name="state" class=" profile-form-input-custome"
-                                        placeholder="State" minlength="3" maxlength="50" required>
-                                    @if ($errors->has('state'))
+                                    <select name="state" id="state" class=" profile-form-input-custome" required>
+                                        <option value="">
+                                            Select State
+                                        </option>
+                                        @foreach (App\Models\UserAddress::STATE as $state)
+                                            <option value="{{ $state }}"
+                                                @if (old('state') == $state) {{ 'selected' }} @endif>
+                                                {{ $state }}</option>
+                                        @endforeach
+                                    </select>
+                                    @if (session()->has('store-form-error') && $errors->has('state'))
                                         <div id="state-error" class="text-danger text-start">
                                             {{ $errors->first('state') }}</div>
                                     @endif
                                 </div>
 
                                 <div class="form-group py-2 col-md-6">
-                                    <input type="text" name="country" class=" profile-form-input-custome"
-                                        placeholder="Country" minlength="3" maxlength="50" required>
-                                    @if ($errors->has('country'))
+                                    <select name="country" id="country" class="profile-form-input-custome" required>
+                                        <option value="India" selected>India</option>
+                                        {{-- @foreach (App\Models\UserAddress::COUNTRY as $country)
+                                            <option value="{{ $country }}"
+                                                @if (old('country') == $country) {{ 'selected' }} @endif>
+                                                {{ $country }}</option>
+                                        @endforeach --}}
+                                    </select>
+                                    @if (session()->has('store-form-error') && $errors->has('country'))
                                         <div id="country-error" class="text-danger text-start">
                                             {{ $errors->first('country') }}
                                         </div>
                                     @endif
                                 </div>
                                 <div class="form-group py-2 col-md-6">
-                                    <input type="text" name="postal_code" class="profile-form-input-custome col-md-6"
-                                        placeholder="Pin Code" minlength="3" maxlength="20" required>
-                                    @if ($errors->has('postal_code'))
+                                    <input type="text" name="postal_code" value="{{ old('postal_code') }}"
+                                        class="profile-form-input-custome col-md-6" placeholder="Pin Code" minlength="3"
+                                        maxlength="20" required>
+                                    @if (session()->has('store-form-error') && $errors->has('postal_code'))
                                         <div id="postal_code-error" class="text-danger text-start">
                                             {{ $errors->first('postal_code') }}
                                         </div>
@@ -281,26 +301,30 @@
 @endsection
 @section('js')
     <script>
-        // @if (count($errors) > 0)
-        //     $(document).ready(function() {
-        //         $('#addressFormPopup').modal('show')
-        //     });
-        // @endif
-        $("#checkout_form").submit(function(e) {
-            e.preventDefault();
-            // check any address is selected or not
-            var address_id = $('input[name=address]:checked').val();
-            console.log(address_id);
-            if (address_id == undefined) {
-                Snackbar.show({
-                    text: "Please select delivery address",
-                    pos: 'top-right',
-                    actionTextColor: '#fff',
-                    backgroundColor: '#2196f3'
-                });
-                return false;
-            }
-            this.submit();
+        $(document).ready(function() {
+            $("#checkout_form").submit(function(e) {
+                e.preventDefault();
+                // check any address is selected or not
+                var address_id = $('input[name=address]:checked').val();
+                // console.log(address_id);
+                if (address_id == undefined) {
+                    Snackbar.show({
+                        text: "Please select delivery address",
+                        pos: 'top-right',
+                        actionTextColor: '#fff',
+                        backgroundColor: '#2196f3'
+                    });
+                    return false;
+                }
+                this.submit();
+            });
         });
     </script>
+    @if (count($errors) > 0 && !$errors->has('coupon'))
+        <script>
+            $(document).ready(function() {
+                $('#addressFormPopup').modal('show');
+            });
+        </script>
+    @endif
 @endsection

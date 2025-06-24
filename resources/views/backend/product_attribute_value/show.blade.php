@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Attribute Value - ' . $product_attribute_value->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -8,7 +8,7 @@
                     <div class="row justify-content-between align-items-center mb-1 ">
                         <div class="col-xl-4   mt-2 mb-1">
                             <legend class="h4">
-                                Product Attribute Value Details
+                                Attribute Value Details
                             </legend>
                         </div>
 
@@ -17,7 +17,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page"><a
-                                            href="javascript:void(0);">Product Attribute Value Details</a></li>
+                                            href="javascript:void(0);">Attribute Value Details</a></li>
                                 </ol>
                             </nav>
                         </div>

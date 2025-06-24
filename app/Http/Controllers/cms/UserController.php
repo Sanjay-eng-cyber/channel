@@ -35,11 +35,8 @@ class UserController extends Controller
             //     ->orWhere('email', 'LIKE', '%' . $search . '%');
 
             $users = $users->where(function ($query) use ($search) {
-                $query->where(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', '%' . $search . '%')->
-                orWhere('email', 'LIKE', '%' . $search . '%')->
-                orWhere('phone', 'LIKE', '%' . $search . '%');
+                $query->where(DB::raw("concat(first_name, ' ', last_name)"), 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%')->orWhere('phone', 'LIKE', '%' . $search . '%');
             });
-
         }
         return $users;
     }
@@ -47,12 +44,16 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        $userPrimaryAddress =  $user->userAddress->where('type','primary')->first();
-        $userOtherAddress =  $user->userAddress()->where('type','!=','primary')->get();
+        $userPrimaryAddress =  $user->userAddress->where('type', 'primary')->first();
+        $userOtherAddress =  $user->userAddress()->where('type', '!=', 'primary')->get();
         $orders = $user->orders()->latest()->paginate(10, ['*'], 'orders');
-        $wishlists = $user->wishlist()->latest()->paginate(10, ['*'], 'wishlists');
+        // dd($orders);
+        $wishlists = $user->wishlist()->with('product')->latest()->paginate(10, ['*'], 'wishlists');
+        $transactions = $user->transactions()->latest()->paginate(10, ['*'], 'transactions');
+        // dd($transactions);
+        //dd($transactions);
         // dd($user->wishlist()->first()->product()->first());
-      // dd($userOtherAddress);
-        return view('backend.users.show', compact('user','userPrimaryAddress','userOtherAddress','orders','wishlists'));
+        //dd($transactions);
+        return view('backend.users.show', compact('user', 'userPrimaryAddress', 'userOtherAddress', 'orders', 'wishlists', 'transactions'));
     }
 }

@@ -1,13 +1,39 @@
-.profile-s-bg-color {
+/* .profile-s-bg-color {
     background-color: #FEEAEF;
     color: black;
     border: 0.782313px solid rgba(236, 38, 143, 0.4);
     border-radius: 637.585px;
 
 }
+
 .profile-s-bg-color:hover {
     background-color: #FEEAEF;
     color: black;
+    border: 0.782313px solid rgba(236, 38, 143, 0.4);
+    border-radius: 637.585px;
+} */
+
+
+.profile-s-bg-color {
+    --bs-btn-color: black;
+    --bs-btn-bg: #FEEAEF;
+    --bs-btn-border-color: rgba(236, 38, 143, 0.4);
+    --bs-btn-hover-color:black;
+    --bs-btn-hover-bg: #FEEAEF;
+    --bs-btn-hover-border-color:rgba(236, 38, 143, 0.4);
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: black;
+    --bs-btn-active-bg: #FEEAEF;
+    --bs-btn-active-border-color: rgba(236, 38, 143, 0.4);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: black
+    --bs-btn-disabled-bg:#FEEAEF;
+    --bs-btn-disabled-border-color: rgba(236, 38, 143, 0.4);
+    border: 0.782313px solid rgba(236, 38, 143, 0.4);
+    border-radius: 637.585px;
+
+}
+.profile-s-bg-color:hover{
     border: 0.782313px solid rgba(236, 38, 143, 0.4);
     border-radius: 637.585px;
 }
@@ -60,13 +86,13 @@
     position: relative;
 }
 
-.profile-form-group-star-pin-code::after {
+/* .profile-form-group-star-pin-code::after {
     content: "*";
     position: absolute;
     top: 14px;
     left: 72px;
     color: rgba(241, 0, 0, 0.7);
-}
+} */
 
 .profile-form-input-custome {
     display: block;
@@ -109,11 +135,12 @@
 }
 
 .profile-breadcrumb .bg-stipe {
-    background: #ec268f99;
+    /* background-image:url('/frontend/images/banner/profile-bg.png'); */
+    background-color: #FFDFF0;
     position: absolute;
     width: 100%;
-    height: 70%;
-    top: 30%;
+    height: 100%;
+    top:-29%;
     left: 0;
     -webkit-user-select: none;
     -ms-user-select: none;
@@ -122,34 +149,52 @@
 }
 
 .profile-photo-section {
-    max-width: 200px;
+
     position: relative;
     margin: auto;
 }
 
 .profile-photo {
-    border: 5px solid #ec268f;
+    /* border: 5px solid #ec268f; */
     border-radius: 30em;
+    width:5em;height:5em;object-fit: cover
 }
 
 .edit-photo-btn {
     position: absolute;
-    bottom: 1em;
-    right: 1em;
-    width: 3em;
-    height: 3em;
+    bottom: 0em;
+    right: 0em;
+    width: 2em;
+    height: 2em;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.3em;
     border-radius: 5em;
-    background: #d9d9d9;
+    background: #FFFFFF;
+    border: 0.23px solid #393535
 }
+
 
 .edit-photo-btn:hover {
     background: #fff;
+    border: 0.23px solid #393535
 }
 
+
+
+@media screen and (max-width:576px){
+    .profile-photo {
+        width:6em;
+        height:6em;
+        object-fit: cover
+    }  
+    .edit-photo-btn {
+        width: 1.5em;
+        height:1.5em;
+    }
+
+}
 .profile {
     margin-bottom: 1em;
 }
@@ -185,8 +230,11 @@
     background: #ffffff;
     box-shadow: 8px 8px 12px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
-    padding-top: 1em;
-    padding-bottom: 1em;
+    padding-top: 2.4em;
+    padding-bottom: 2.4em;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    margin-top: 1.3rem;
 }
 
 .profile-menu a.btn {
@@ -194,7 +242,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: 15px;
+    font-size: 16px;
     border: none;
 }
 @media (max-width: 992px) {
@@ -208,11 +256,7 @@
         font-size: 13px;
     }
 }
-@media (max-width: 576px) {
-    .profile-menu a.btn {
-        font-size: 10px;
-    }
-}
+
 
 .menu-icon {
     display: flex;
@@ -224,33 +268,65 @@
     padding: 0.8em;
     margin-bottom: 0.2em;
     background: #ffffff;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.52);
+    border: 1px solid #ACAAAA;
+    /* box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.52); */
     transition: box-shadow 1s;
 }
 .profile-menu a.btn:hover,
 .profile-menu a.btn.active {
     color: #ec268f;
 }
+
 .profile-menu a.btn.active .menu-icon {
-    box-shadow: 0px 0px 4px #ec268f;
+    /* box-shadow: 0px 0px 4px #ec268f; */
+    border: 1px solid #FEC7E4
 }
 .profile-menu a.btn.active .menu-icon svg {
     fill: #ec268f;
 }
-.profile-menu a.btn:hover .menu-icon {
-    box-shadow: -2px -8px 16px 0px #ec268f99;
+
+.profile-menu a.btn:hover .menu-icon {    
+    border: 1px solid #FEC7E4
+
 }
 .profile-menu a.btn:hover .menu-icon svg {
-    fill: #ec268f99;
+    /* fill: #ec268f99; */
+    fill: #ec268f;
 }
 
+.profile-menu a.btn.active .menu-icon.wishlist-svg svg path {
+    stroke: #ec268f !important;
+    fill: none !important;
+}
+
+.profile-menu a.btn:hover .menu-icon.wishlist-svg svg path  {
+    stroke: #ec268f !important;
+    fill: none !important;
+}
+.nav-color-active .nav-color-active-ul a.nav-color-btn.active svg{
+    fill: #ec268f;
+}
+@media (max-width: 576px) {
+    .profile-menu{
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-top: 0px;
+    }
+    .profile-menu a.btn {
+        font-size: 10px;
+    }
+    .menu-icon {
+    width: 6em;
+    height: 6em;
+    }
+}
 /* wishlist  page */
 
 .wishlist-main .wishlist-main-out {
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 9.69512px;
-    padding: 15px 25px 12px 25px;
+    padding:15px;
 }
 .wishlist-main .wishlist-main-out .wishlist-main-in .wishlist-main-in-img img {
     width: 170px;
@@ -513,7 +589,7 @@
         font-size: 1.02rem;
         font-weight: 500;
         line-height: 1.2;
-        padding-left: 17px;
+        /* padding-left: 17px; */
         padding-top: 15px;
     }
 }
@@ -795,8 +871,8 @@ order-return second page */
 
 .review-input-bg{
     background-color: #FAF8F8;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
+border: 1.3px solid #00000033;
+    border-radius: 11px;
 }
 
 

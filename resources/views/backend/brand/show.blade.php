@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Brand Details - ' . $brand->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -41,7 +41,7 @@
                                                 <p class="label-title">{{ $brand->name }}</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        {{-- <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Image</label><br>
@@ -50,14 +50,14 @@
                                                         height="150px" width="150px" alt="">
                                                 @endif
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
+                                        </div> --}}
+                                        {{-- <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Description</label><br>
                                                 <p class="label-title">{{ $brand->descriptions ?? '---'}}</p>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>

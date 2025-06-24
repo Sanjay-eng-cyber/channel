@@ -4,13 +4,13 @@
     <link rel="stylesheet" href="{{ url('frontend/css/profile.css') }}">
 @endsection
 @section('content')
-    <x-frontend.profile-nav image="https://via.placeholder.com/300" name="users name" />
+    @include('components.frontend.profile-nav-div')
     <section class="mt-3">
         <div class="container">
             <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#" class="bread-crum breadcrumb-hover">Profile</a></li>
-                    <li class="breadcrumb-item bread-crum" aria-current="page">My Wishlist </li>
+                    <li class="breadcrumb-item bread-crum" aria-current="page">Wishlist</li>
                 </ol>
             </nav>
         </div>
@@ -39,27 +39,43 @@
                 <div class="row py-3">
                     <div class="d-flex justify-content-center wishlist-main">
                         <div class="col-sm-8 wishlist-main-out">
-                            <div class="row wishlist-main-in">
-                                <div
-                                    class="col-sm-12 col-md-4 col-lg-4 col-xl-3 d-flex justify-content-center flex-column wishlist-main-in-img">
-                                    <img src="frontend/images/products/skin/sk1.png" class="img-fluid" alt="">
+                            <div class="row wishlist-main-in d-flex align-items-center justify-content-between;">
+                                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-3  wishlist-main-in-img text-center">
+                                    <a href="{{ route('frontend.p.show', $w->product->slug) }}">
+                                        <img src="{{ asset('storage/images/products/thumbnails/' . $w->product->thumbnail_image) }}"
+                                            class="img-fluid" alt=""
+                                            style="max-width:140px;max-height:140px;object-fit:contain">
+                                    </a>
                                 </div>
-                                <div class="col-sm-12 text-md-start text-center  col-md-8 col-lg-8 col-xl-6 wishlist-main-desc">
+                                <div
+                                    class="col-sm-12 text-md-start text-center  col-md-8 col-lg-8 col-xl-6 wishlist-main-desc pt-3 pt-md-0">
 
-                                    <h5 class="main-head">{{ $w->product->name }}</h5>
-                                    <p style="font-size: 14px;opacity: 0.6;">{{ $w->product->short_descriptions }}
-                                    </p>
+                                    <h5 class="main-head">
+                                        <a href="{{ route('frontend.p.show', $w->product->slug) }}">
+                                            {{ $w->product->name }}
+                                        </a>
+                                    </h5>
+                                    <span style="font-size: 14px;opacity: 0.6;">{{ $w->product->short_descriptions }}
+
+                                    </span>
 
                                     <ul class="list-unstyled d-flex gap-3 justify-content-md-start justify-content-center">
-                                        <li class="price">From ₹ {{ $w->product->final_price }}</li>
+                                        <li class="price">From ₹ {{ $w->product->final_price }}
+                                            <s class="text-muted">₹{{ $w->product->mrp }}</s>
+                                        </li>
                                         @if ($w->product->stock)
-                                            <li class="status">In Stock</li>
+                                            <li class="status price">In Stock
+                                                <i class="fa-regular fa-circle-check"></i>
+                                            </li>
+                                        @else
+                                            <li class="text-red price">Out of Stock
+                                                <i class="fa-regular fa-circle-xmark"></i>
+                                            </li>
                                         @endif
                                     </ul>
 
                                 </div>
-                                <div
-                                    class="col-sm-12  col-md-12 col-lg-12 col-xl-3 py-3 py-xl-0 py-xxl-0 wishlist-main-in-btn">
+                                <div class="col-sm-12  col-md-12 col-lg-12 col-xl-3  wishlist-main-in-btn">
                                     @if ($w->product->isInCart())
                                         <a href="javascript:void(0)"
                                             class="add-p-btn add-to-cart add-to-cart-btn btn btn-outline-pink btn-pink profile-btn-color"
@@ -78,7 +94,8 @@
                                             Cart</a>
                                     @endif
 
-                                    <a href="{{route('frontend.wishlist.delete', $w->id)}}" style="font-size:12px" class="py-1 text-red mt-md-1 mt-2"
+                                    <a href="{{ route('frontend.wishlist.delete', $w->id) }}"
+                                        style="font-size:12px;opacity:65%" class="py-1 text-red mt-md-1 mt-2 "
                                         data-bs-toggle="" data-bs-target="">
                                         Remove item from Wishlist
                                     </a>
@@ -88,7 +105,7 @@
                     </div>
                 </div>
             @empty
-                @include('frontend.not-found')
+                @include('frontend.not-found', ['type' => 'Wishlist'])
             @endforelse
             <div class="row">
                 <div class="col-12">

@@ -12,11 +12,11 @@ class ReviewController extends Controller
     public function store(Request $request, $product_slug)
     {
         $product = Product::where('slug', $product_slug)->firstOrFail();
-        //dd($product->id);
+        // dd($request);
         $request->validate([
-            'title' => 'required|min:3|max:80',
-            'body' => 'required|min:3|max:120',
-            'rating' => 'required|numeric|digits_between:1,5',
+            'title' => 'required|min:3|max:120',
+            'body' => 'required|min:3|max:1000',
+            'rating' => 'required|numeric|min:1|max:5',
         ]);
         $review = new Review();
         $review->user_id = auth()->user()->id;

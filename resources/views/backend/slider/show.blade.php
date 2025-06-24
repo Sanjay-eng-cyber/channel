@@ -1,8 +1,8 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', ucwords($slider->type))
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
-        <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
+        <div id="tableDropdown" class="col-lg-12 col-12">
             <div class="statbox widget box box-shadow my-1">
                 <div class="widget-header">
                     <div class="row justify-content-between align-items-center mb-1">
@@ -24,45 +24,52 @@
                     </div>
                 </div>
             </div>
-
-            <div class="info statbox widget box box-shadow">
+            <div class="info statbox widget box box-shadow col-md-6">
                 <div class="row widget-header">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="work-section">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
                                     </div>
                                     <div class="row">
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title" class="label-title">Title</label><br>
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Title</label><br>
                                                 <p class="label-title">{{ $slider->title }}</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title" class="label-title">Type</label><br>
-                                                <p class="label-title">{{ $slider->type }}</p>
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Type</label><br>
+                                                <p class="label-title">{{ ucwords($slider->type) }}</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title" class="label-title">Link</label><br>
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Link</label><br>
                                                 <p class="label-title">{{ $slider->link }}</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Image</label><br>
                                                 @if ($slider->image)
-                                                    <img src="{{ asset('storage/images/sliders/' . $slider->image) }}"
-                                                        height="150px" width="150px" alt="">
+                                                    <span id="lightgallery1">
+                                                        <a href="{{ asset('storage/images/sliders/' . $slider->image) }}">
+                                                            <img src="{{ asset('storage/images/sliders/' . $slider->image) }}"
+                                                                style="height: 150px;width:150px;object-fit:contain;"
+                                                                alt="">
+                                                        </a>
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
-                                        <div class="col-md-12">
+                                        <div class="col-12">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Description</label><br>
@@ -82,33 +89,15 @@
         </div>
     </div>
 @endsection
-@section('cdn')
-    <link href="{{ asset('assets/css/components/tabs-accordian/custom-tabs.css') }}" rel="stylesheet" type="text/css" />
-@endsection
 @section('js')
+    <script src="{{ asset('plugins/lightgallery/js/lightgallery.min.js') }}"></script>
+    <script src="{{ asset('plugins/lightgallery/js/lg-zoom.js') }}"></script>>
     <script>
         $(document).ready(function() {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            let activeTab = localStorage.getItem('activeTab');
-            if (activeTab) {
-                $('a[href="' + activeTab + '"]').tab('show');
-            }
-        })
-    </script>
-    <link type=" text/css" rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css" />
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/js/lightgallery.min.js') }}"></script>
-    <script src="{{ asset('js/lg-zoom.min.js') }}"></script>
-    {{-- <link rel="stylesheet" type=" text/css" href="{{ asset('css/lightgallery.css') }}">
-        <script src="{{ asset('js/lightgallery.js') }}"></script> --}}
-    <script>
-        $(document).ready(function() {
-            $("#lightgallery2").lightGallery({
+            lightGallery(document.getElementById('lightgallery1'), {
+                speed: 500,
                 download: false,
-                escKey: true,
-                fullScreen: true,
+                thumbnail: true,
             });
         });
     </script>

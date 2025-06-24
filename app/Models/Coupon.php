@@ -11,7 +11,7 @@ class Coupon extends Model
 
     public function couponUsage()
     {
-        return $this->hasMany(CouponUsage::class)->where('coupon_id', $this->id)->count();
+        return $this->hasMany(CouponUsage::class);
     }
 
     public static function findPromoCode($code)
@@ -21,14 +21,16 @@ class Coupon extends Model
 
     public function discount($total)
     {
-        if ($this->type == 'Referral' && $this->value > env('MAX_DISC'))
-            return env('MAX_DISC');
-        if ($this->rate === 'flat')
+        if ($this->rate === 'flat') {
             return $this->value;
-        elseif ($this->rate === 'percent')
+        } elseif ($this->rate === 'percent') {
+            $gst = gst($total);
+            $total = $total - $gst['total'];
+            // dd($gst, $total);
             return ($this->value / 100) * $total;
-        else
+        } else {
             return 0;
+        }
     }
 
     public function isValid()

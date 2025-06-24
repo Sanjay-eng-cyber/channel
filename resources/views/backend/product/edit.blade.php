@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Product Edit - ' . $product->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -32,8 +32,8 @@
                             @csrf
                             <div class="form-group mb-3 row">
                                 <div class="form-group mb-3 row">
-                                    <div class="col-xl-6  col-md-6 col-sm-12">
-                                        <label for="formGroupExampleInput" class="">Name</label>
+                                    <div class="col-xl-9 col-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Name*</label>
                                         <input type="text" class="form-control" id="formGroupExampleInput"
                                             placeholder="Enter Name" minlength="3" maxlength="250" required name="name"
                                             value="{{ old('name') ?? $product->name }}">
@@ -41,7 +41,7 @@
                                             <div class="text-danger" role="alert">{{ $errors->first('name') }}</div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12">
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
                                         <label for="degree2">Brand</label>
                                         <select class="form-control mb-4" name="brand_id">
                                             <option value="">Select Any Brand</option>
@@ -64,8 +64,8 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6 col-md-6 col-sm-12">
-                                        <label for="degree2">Category</label>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Category*</label>
                                         <select class="form-control mb-4" name="category_id" id="sel1"
                                             onchange="getValues()" required>
                                             <option value="">Select Any Category</option>
@@ -88,9 +88,9 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div
-                                        class="col-xl-6  col-md-6 col-sm-12                                      <label for="degree2">
-                                        Sub Category</label>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">
+                                            Sub Category</label>
                                         <select class="form-control mb-4" name="sub_category_id" id="sub">
                                             <option value="">Select Any Sub Category</option>
                                         </select>
@@ -99,28 +99,81 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12">
+
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Thumbnail Image : </label>
+                                        <span id="lightgallery1"><a class="text-primary font-weight-bold float-right"
+                                                href="{{ asset('storage/images/products/thumbnails/' . $product->thumbnail_image) }}">View</a>
+                                        </span>
+                                        <br>
+                                        {{-- <img class="m-2 border"
+                                            src="{{ asset('storage/images/products/thumbnails/' . $product->thumbnail_image) }}"
+                                            height="150px" width="150px" alt=""> --}}
+                                        <input class="form-control" name="thumbnail_image" type="file" id="image">
+                                        @if ($errors->has('thumbnail_image'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('thumbnail_image') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="degree2">Image : </label>
+                                        <span id="lightgallery2">
+                                            @forelse ($product->medias()->get() as $key => $media)
+                                                @if ($key == 0)
+                                                    <a href="{{ asset('storage/images/products/' . $media->file_name) }}"
+                                                        type="button" class="text-primary font-weight-bold float-right">
+                                                        View
+                                                    </a>
+                                                @else
+                                                    <a href="{{ asset('storage/images/products/' . $media->file_name) }}"
+                                                        type="button" class="d-none">
+                                                        View
+                                                    </a>
+                                                @endif
+                                            @empty
+                                            @endforelse
+                                        </span>
+                                        {{-- <div class="d-flex flex-wrap">
+                                                <img class="m-2 border"
+                                                    src="{{ asset('storage/images/products/' . $media->file_name) }}"
+                                                    height="150px" width="150px" alt="">
+
+                                        </div> --}}
+                                        <input class="form-control" name="image[]" type="file" id="image" multiple />
+                                        @if ($errors->has('image'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('image') }}
+                                            </div>
+                                        @endif
+                                        @if ($errors->has('image.*'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('image.*') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    {{-- <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
                                         <label for="formGroupExampleInput" class="">Connection No.</label>
                                         <input type="text" class="form-control" id="formGroupExampleInput"
-                                            placeholder="Enter Connection No." required minlength="3" maxlength="20"
+                                            placeholder="Enter Connection No." minlength="3" maxlength="20"
                                             name="connection_no"
                                             value="{{ old('connection_no') ?? $product->connection_no }}">
                                         @if ($errors->has('connection_no'))
                                             <div class="text-danger" role="alert">{{ $errors->first('connection_no') }}
                                             </div>
                                         @endif
-                                    </div>
-                                    <div class="col-xl-6 col-md-6 col-sm-12">
-                                        <label for="formGroupExampleInput" class="">MRP</label>
+                                    </div> --}}
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">MRP*</label>
                                         <input type="text" class="form-control" id="formGroupExampleInput"
-                                            placeholder="Enter Mrp" minlength="3" maxlength="40" required name="mrp"
-                                            value="{{ old('mrp') ?? $product->mrp }}">
+                                            placeholder="Enter Mrp" minlength="3" maxlength="40" required
+                                            name="mrp" value="{{ old('mrp') ?? $product->mrp }}">
                                         @if ($errors->has('mrp'))
                                             <div class="text-danger" role="alert">{{ $errors->first('mrp') }}</div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12">
-                                        <label for="formGroupExampleInput" class="">Final Price</label>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Final Price*</label>
                                         <input type="text" class="form-control" id="formGroupExampleInput"
                                             placeholder="Enter Final Price" minlength="3" maxlength="40" required
                                             name="final_price" value="{{ old('final_price') ?? $product->final_price }}">
@@ -129,35 +182,154 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12 py-3">
-                                        <label for="formGroupExampleInput" class="">Stock</label>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Stock*</label>
                                         <input type="text" class="form-control" id="formGroupExampleInput"
-                                            placeholder="Enter Stock" minlength="3" maxlength="40" required
+                                            placeholder="Enter Stock" minlength="1" maxlength="40" required
                                             name="stock" value="{{ old('stock') ?? $product->stock }}">
                                         @if ($errors->has('stock'))
                                             <div class="text-danger" role="alert">{{ $errors->first('stock') }}</div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12 py-3">
-                                        <label for="formGroupExampleInput" class="">SKU</label>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">SKU*</label>
                                         <input type="text" class="form-control" id="formGroupExampleInput"
                                             placeholder="Enter SKU" required name="sku"
-                                            value="{{ old('sku') ?? $product->sku }}">
+                                            value="{{ old('sku') ?? $product->sku }}" maxlength="120">
                                         @if ($errors->has('sku'))
                                             <div class="text-danger" role="alert">{{ $errors->first('sku') }}</div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label for="formGroupExampleInput" class="">Short Descriptions</label>
-                                        <textarea name="short_descriptions" rows="5" cols="50" class="form-control" minlength="3"
-                                            maxlength="5000" required>{{ $product->short_descriptions }}</textarea>
+                                        <textarea name="short_descriptions" placeholder="Enter Short Description" rows="3" cols="50"
+                                            class="form-control" minlength="3" maxlength="5000">{{ $product->short_descriptions }}</textarea>
                                         @if ($errors->has('short_descriptions'))
                                             <div class="text-danger" role="alert">
                                                 {{ $errors->first('short_descriptions') }}</div>
                                         @endif
                                     </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="tags">Tags</label>
+                                        <select class="form-control tagging" name="tags[]" minlength="3"
+                                            maxlength="30" multiple="multiple">
+                                            @if (old('tags'))
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->name }}"
+                                                        @if (in_array($tag->name, old('tags'))) {{ 'selected' }} @endif>
+                                                        {{ $tag->name }}
+                                                    </option>
+                                                @endforeach
+                                            @else
+                                                @foreach ($tags as $tag)
+                                                    <option value="{{ $tag->name }}"
+                                                        @if (in_array($tag->name, $tagsArray)) {{ 'selected' }} @endif>
+                                                        {{ $tag->name }}</option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                        @if ($errors->has('tags'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('tags') }}
+                                            </div>
+                                        @endif
+                                        @if ($errors->has('tags.*'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('tags.*') }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+                                        <label for="formGroupExampleInput" class="">Unit Sale Price</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Unit Sale Price" name="unit_sale_price"
+                                            value="{{ old('unit_sale_price') ?? $product->unit_sale_price }}" minlength="2" maxlength="30">
+                                        @if ($errors->has('unit_sale_price'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('unit_sale_price') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+                                        <label for="formGroupExampleInput" class="">Skin Type</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Skin Type" name="skin_type"
+                                            value="{{ old('skin_type') ?? $product->skin_type }}" minlength="2"
+                                            maxlength="120">
+                                        @if ($errors->has('skin_type'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('skin_type') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-4">
+                                        <label for="formGroupExampleInput" class="">Material</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Material" name="material"
+                                            value="{{ old('material') ?? $product->material }}" minlength="2"
+                                            maxlength="120">
+                                        @if ($errors->has('material'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('material') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Expiry</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Expiry" name="expiry"
+                                            value="{{ old('expiry') ?? $product->expiry }}" minlength="2"
+                                            maxlength="120">
+                                        @if ($errors->has('expiry'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('expiry') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
+                                        <label for="formGroupExampleInput" class="">Net Quantity</label>
+                                        <input type="text" class="form-control" id="formGroupExampleInput"
+                                            placeholder="Enter Net Quantity" name="net_quantity"
+                                            value="{{ old('net_quantity') ?? $product->net_quantity }}" minlength="2"
+                                            maxlength="120">
+                                        @if ($errors->has('net_quantity'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('net_quantity') }}</div>
+                                        @endif
+                                    </div>
+                                    <div class="col-xl-9 col-md-6 col-sm-12 mb-3 d-none d-xl-block">
+                                    </div>
+                                    <div class="col-xl-6 col-md-6 col-sm-12 mb-6">
+                                        <label for="formGroupExampleInput" class="">Special Ingredients</label>
+                                        <textarea type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter Special Ingredients"
+                                            name="special_ingredients" minlength="2" maxlength="3000" rows="3" cols="50">{{ old('special_ingredients') ?? $product->special_ingredients }}</textarea>
+                                        @if ($errors->has('special_ingredients'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('special_ingredients') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-xl-6 col-md-6 col-sm-12 mb-6">
+                                        <label for="formGroupExampleInput" class="">Care Instruction</label>
+                                        <textarea type="text" class="form-control" id="formGroupExampleInput" placeholder="Enter Care Instruction"
+                                            name="care_instruction" minlength="2" maxlength="3000" rows="3" cols="50">{{ old('care_instruction') ?? $product->care_instruction }}</textarea>
+                                        @if ($errors->has('care_instruction'))
+                                            <div class="text-danger" role="alert">
+                                                {{ $errors->first('care_instruction') }}</div>
+                                        @endif
+                                    </div>
+
+                                    <div class="col-12 py-2 mb-3">
+                                        <label for="descriptions">Description</label>
+                                        <textarea id="team-about" class="team-about" name="descriptions" minlength="3" maxlength="20000">{{ old('descriptions') ?? $product->descriptions }}</textarea>
+                                        @if ($errors->has('body'))
+                                            <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+
+                                    <div class="col-12 pt-3">
+                                        <label for="descriptions">Attributes:</label><br>
+                                    </div>
                                     @foreach ($attributes as $attribute)
-                                        <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
+                                        <div class="col-xl-3 col-md-6 col-sm-12 mb-3">
                                             <input hidden name="attributeKeys[]" value="{{ $attribute->id }}">
                                             <label for="degree2">{{ $attribute->name }}</label>
                                             <select class="form-control" name="values[]">
@@ -178,7 +350,8 @@
                                             </select>
                                         </div>
                                     @endforeach
-                                    <div class="col-xl-12  col-md-6 col-sm-12 py-1">
+
+                                    <div class="col-12 py-2 mb-3">
                                         <label for="descriptions">Showcase</label><br>
                                         @if (old('showcases'))
                                             @foreach ($showcases as $showcase)
@@ -203,52 +376,12 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12">
-                                        <label for="degree2">Image</label>
-                                        <div class="d-flex flex-wrap">
-                                            @forelse ($product->medias()->get() as $media)
-                                                <img class="m-2 border"
-                                                    src="{{ asset('storage/images/products/' . $media->file_name) }}"
-                                                    height="150px" width="150px" alt="">
 
-                                            @empty
-                                            @endforelse
-                                        </div>
-                                        <input class="form-control" name="image[]" type="file" id="image"
-                                            multiple />
-                                        @if ($errors->has('image'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('image') }}
-                                            </div>
-                                        @endif
-                                        @if ($errors->has('image.*'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('image.*') }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="col-xl-6  col-md-6 col-sm-12 mb-3">
-                                        <label for="degree2">Thumbnail Image</label><br>
-                                        <img class="m-2 border"
-                                            src="{{ asset('storage/images/products/' . $product->thumbnail_image) }}"
-                                            height="150px" width="150px" alt="">
-                                        <input class="form-control" name="thumbnail_image" type="file"
-                                            id="image">
-                                        @if ($errors->has('thumbnail_image'))
-                                            <div class="text-danger" role="alert">
-                                                {{ $errors->first('thumbnail_image') }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="col-xl-12  col-sm-12 py-1">
-                                        <label for="descriptions">Description</label>
-                                        <textarea id="team-about" name="descriptions" minlength="3" maxlength="20000">{{ old('descriptions') ?? $product->descriptions }}</textarea>
-                                        @if ($errors->has('body'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
-                                            </div>
-                                        @endif
-                                    </div>
+
                                 </div>
                                 <input type="submit" class="btn btn-primary"
                                     onclick="return confirm('Are you sure, you want to update?')">
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -256,90 +389,99 @@
         </div>
     </div>
     </div>
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/select2/select2.min.css') }}">
 @endsection
 @section('js')
-    <link type=" text/css" rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css" />
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/js/lightgallery.min.js') }}">
-    </script>
-    <script src="{{ asset('js/lg-zoom.min.js') }}"></script>
-    {{-- <link rel="stylesheet" type=" text/css" href="{{ asset('css/lightgallery.css') }}">
-        <script src="{{ asset('js/lightgallery.js') }}"></script> --}}
+    <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('plugins/select2/custom-select2.js') }}"></script>
+    <script src="{{ asset('plugins/lightgallery/js/lightgallery.min.js') }}"></script>
+    <script src="{{ asset('plugins/lightgallery/js/lg-zoom.js') }}"></script>>
     <script>
         $(document).ready(function() {
-            $("#lightgallery2").lightGallery({
+            lightGallery(document.getElementById('lightgallery1'), {
+                speed: 500,
                 download: false,
-                escKey: true,
-                fullScreen: true
+                thumbnail: true,
             });
+            lightGallery(document.getElementById('lightgallery2'), {
+                speed: 500,
+                download: false,
+                thumbnail: true,
+            });
+            getValues();
+        });
+
+        $(".tagging").select2({
+            tags: true,
+            placeholder: "Select / Enter Tags",
         });
     </script>
+
+    <script>
+        tinymce.init({
+            selector: '.team-about',
+            height: 200,
+            plugins: 'textcolor colorpicker lists link',
+            toolbar: "formatselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist | link | outdent indent  | removeformat",
+            // theme: 'modern',
+            // plugins: ' fullpage powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media template codesample  charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker contextmenu colorpicker textpattern ',
+            // toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+            // image_advtab: true,
+            // templates: [{
+            //         title: 'Test template 1',
+            //         content: 'Test 1'
+            //     },
+            //     {
+            //         title: 'Test template 2',
+            //         content: 'Test 2'
+            //     }
+            // ],
+            // content_css: [
+            //     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
+
+            // ]
+        });
+        const sub_category_id = '{{ $product->sub_category_id ?? 'null' }}'
+
+        function getValues() {
+            $('#sub').html('')
+
+            if ($('#sel1').val()) {
+
+                $.ajax({
+                    url: '/category/get/subcategory/' + $('#sel1').val(),
+                    method: "GET",
+                    success: function(data) {
+                        if (data.data == '') {
+                            $('#sub').append(`<option value=''>No data</option>`)
+                        } else {
+                            $('#sub').append(`<option value=''>Select If Required</option>`)
+                            $.each(data.data, function(id, value) {
+                                $('#sub').append(
+                                    `<option value="${value.id}" ${sub_category_id == value.id ? 'selected' : ''}>${value.name}</option>`
+                                )
+                            })
+                        }
+                    },
+                    error: function() {
+                        Snackbar.show({
+                            text: "Internal Error",
+                            pos: 'top-right',
+                            actionTextColor: '#fff',
+                            backgroundColor: '#e7515a'
+                        });
+                    }
+                })
+            }
+        }
+    </script>
+
+
 @endsection
 <style>
     .lg-icon {
         background: transparent !important;
     }
 </style>
-<script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/4/tinymce.min.js">
-</script>
-<script>
-    tinymce.init({
-        selector: '#team-about',
-        height: 200,
-        plugins: 'textcolor colorpicker lists link',
-        toolbar: "formatselect | fontsizeselect | bold italic strikethrough forecolor backcolor | alignleft aligncenter alignright alignjustify  | numlist bullist | link | outdent indent  | removeformat",
-        // theme: 'modern',
-        // plugins: ' fullpage powerpaste searchreplace autolink directionality advcode visualblocks visualchars fullscreen image link media template codesample  charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount tinymcespellchecker a11ychecker imagetools mediaembed  linkchecker contextmenu colorpicker textpattern ',
-        // toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
-        // image_advtab: true,
-        // templates: [{
-        //         title: 'Test template 1',
-        //         content: 'Test 1'
-        //     },
-        //     {
-        //         title: 'Test template 2',
-        //         content: 'Test 2'
-        //     }
-        // ],
-        // content_css: [
-        //     '//fonts.googleapis.com/css?family=Lato:300,300i,400,400i',
-
-        // ]
-    });
-    const sub_category_id = '{{ $product->sub_category_id ?? 'null' }}'
-
-    function getValues() {
-        $('#sub').html('')
-
-        if ($('#sel1').val()) {
-
-            $.ajax({
-                url: '/category/get/subcategory/' + $('#sel1').val(),
-                method: "GET",
-                success: function(data) {
-                    if (data.data == '') {
-                        $('#sub').append(`<option value=''>No data</option>`)
-                    } else {
-                        $('#sub').append(`<option value=''>Select If Required</option>`)
-                        $.each(data.data, function(id, value) {
-                            $('#sub').append(
-                                `<option value="${value.id}" ${sub_category_id == value.id ? 'selected' : ''}>${value.name}</option>`
-                            )
-                        })
-                    }
-                },
-                error: function() {
-                    Snackbar.show({
-                        text: "Internal Error",
-                        pos: 'top-right',
-                        actionTextColor: '#fff',
-                        backgroundColor: '#e7515a'
-                    });
-                }
-            })
-        }
-    }
-    $(document).ready(function() {
-        getValues()
-    });
-</script>
+{{-- <script src="https://cdn.tiny.cloud/1/qagffr3pkuv17a8on1afax661irst1hbr4e6tbv888sz91jc/tinymce/4/tinymce.min.js">
+</script> --}}

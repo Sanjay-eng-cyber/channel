@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Showcases')
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -89,6 +89,8 @@
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                         <a class="dropdown-item"
+                                                        href="{{ route('backend.showcase.create', $showcase->id) }}">Create</a>
+                                                        <a class="dropdown-item"
                                                             href="{{ route('backend.showcase.show', $showcase->id) }}">View</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('backend.showcase.edit', $showcase->id) }}">Edit</a>
@@ -100,8 +102,8 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="4">No Records Found</td>
+                                        <tr class="text-md-center">
+                                            <td colspan="3">No Records Found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

@@ -8,8 +8,9 @@ use App\Models\Product;
 use App\Models\CartItem;
 use App\Models\Attribute;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\ProductAttribute;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
@@ -21,7 +22,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::latest()->paginate(10);
-        dd($products);
+        // dd($products);
     }
 
     /**
@@ -32,28 +33,16 @@ class ProductController extends Controller
      */
     public function show($productSlug)
     {
-        $product = Product::where('slug', $productSlug)->firstOrFail();
-        $cProducts = Product::where('id', '!=', $product->id)->where('connection_no', $product->connection_no)->get();
-        $variants = [];
+        $user = auth()->user();
+        $product = Product::where('slug', $productSlug)->with('medias', 'brand')->firstOrFail();
+        $product_attributes = $product->ProductAttribute()->with('attribute', 'value')->latest()->get();
+        // dd($product_attributes);
+        $category = $product->category;
+        $subCategory = $product->subCategory;
+        // dd($product);
         $attributes = $product->attributes()->get();
         // dd($attributes);
-        $similarProducts = Product::where('connection_no', $product->connection_no)->get();
-        // dd($similarProducts);
-        foreach ($attributes as $attribute) {
-            // echo $attribute->name . '<br>';
-            foreach ($similarProducts as $similarProduct) {
-                if ($similarProduct->values()->where('product_attributes.attribute_id', $attribute->id)->first()) {
-                    // echo $similarProduct->values()->where('product_attributes.attribute_id', $attribute->id)->first()->name . '<br>';
-                }
-                // dd($similarProduct->values()->where('product_attributes.attribute_id', $attribute->id)->first());
-            }
-        }
-
-        // $attributes = $product->attributes()->with('values')->get();
-        // dd('stop');
-        // dd($attributes);
-
-        $reviews = $product->reviews()->latest();
+        $reviews = $product->reviews()->with('user')->latest();
         $reviewsCount = $reviews->count();
         $reviews = $reviews->paginate(5);
 
@@ -75,28 +64,37 @@ class ProductController extends Controller
 
         $relatedProducts = Product::where('id', '!=', $product->id)->where('category_id', $product->category_id)->latest()->limit(12)->get();
         // dd($relatedProducts);
-        return view('frontend.product.show', compact('product', 'reviews', 'relatedProducts', 'cProducts', 'reviewRatingAvg', 'ratingsArr', 'attributes', 'similarProducts'));
+
+        if ($user) {
+            $cart = $user->cart;
+        } else {
+            $cart_session_id = session()->get('cart_session_id');
+            $cart = $cart_session_id ? Cart::where('session_id', $cart_session_id)->first() : null;
+        }
+        $productInCart = $cart ? $cart->items()->pluck('product_id')->toArray() : [];
+        $wishlist = $user ? $user->wishlist()->pluck('product_id')->toArray() : [];
+
+        $tags = $product->tags()->pluck('name')->toArray();
+        // dd(implode(', ', $tags));
+
+        return view('frontend.product.show', compact('user', 'product', 'product_attributes', 'category', 'subCategory', 'reviews', 'relatedProducts', 'reviewRatingAvg', 'ratingsArr', 'productInCart', 'wishlist', 'tags'));
     }
 
     public function checkout(Request $request, $product_slug)
     {
+        $validator = Validator::make($request->all(), [
+            'quantity' => 'nullable|numeric|min:1|max:50'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->with(toast('Product Quantity Error.', 'error'));
+        }
         $product = Product::whereSlug($product_slug)->first();
+        // dd($product);
         if ($product) {
-            $user = auth()->user();
-            if ($user) {
-                $cart = Cart::updateOrCreate([
-                    'user_id' => $user->id
-                ]);
-            } else {
-                $cart_session_id = session()->get('cart_session_id');
-                if (!$cart_session_id) {
-                    $cart_session_id = now()->format('dmyhis') . rand(100, 999);
-                    session()->put('cart_session_id', now()->format('dmyhis') . rand(100, 999));
-                }
-                $cart = Cart::updateOrCreate([
-                    'session_id' => $cart_session_id
-                ]);
+            if ($product->stock < $request->quantity) {
+                return redirect()->back()->with(toast('Product Quantity Exceeds Stock.', 'error'));
             }
+            $cart = getUserCart();
             $productInCart = CartItem::where('cart_id', $cart->id)->where('product_id', $product->id)->first();
             if ($productInCart) {
                 $productInCart->update(['quantity' => $request->quantity]);

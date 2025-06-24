@@ -9,7 +9,6 @@
     href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900,900italic%7cMontserrat:400,700%7cOxygen:400,300,700'
     rel='stylesheet' type='text/css'>
 <!-- include the site stylesheet -->
-<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
 
 <link rel="stylesheet" href="{{ asset('frontend/css/fontawesome.min.css') }}">
 
@@ -23,6 +22,11 @@
 <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
 
 <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
+
+
+<link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
+
+<link rel="stylesheet" href="{{ asset('frontend/css/aos.css') }}">
 
 <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
 

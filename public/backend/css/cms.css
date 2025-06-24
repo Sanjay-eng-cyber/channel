@@ -296,3 +296,11 @@ select.form-control {
 
     background: #445ede !important;
 }
+
+.mce-notification-warning {
+    display: none;
+}
+
+thead tr th:first-child{
+    width: 75px;
+}

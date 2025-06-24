@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Sub Category - ' .$sub_category->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="formGroupExampleInput">Category</label>
-                                    <select class="form-control" name="category_id">
+                                    <select class="form-control" name="category_id" required>
                                         <option value="">Select Any Category</option>
                                         @if (old('category_id'))
                                             @foreach ($categorys as $category)
@@ -65,7 +65,7 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="col-xl-12  col-md-6 col-sm-12 py-2">
+                                {{-- <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="degree2">Image</label><br>
                                     @if ($sub_category->image)
                                         <img src="{{ asset('storage/images/sub_categories/' . $sub_category->image) }}"
@@ -77,8 +77,8 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('image') }}
                                         </div>
                                     @endif
-                                </div>
-                                <div class="col-xl-12  col-md-6 col-sm-12 py-2">
+                                </div> --}}
+                                {{-- <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="degree2">Description</label>
                                     <textarea class="form-control" placeholder="Enter Description" rows="3" name="descriptions" minlength="3"
                                         maxlength="250">{{ old('descriptions', $sub_category->descriptions) }}</textarea>
@@ -86,7 +86,7 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
                                         </div>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
                             <input type="submit" class="btn btn-primary"
                                 onclick="return confirm('Are you sure, you want to update?')">

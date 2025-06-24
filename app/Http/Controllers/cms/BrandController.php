@@ -32,27 +32,27 @@ class BrandController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3|max:80|unique:brands,name,',
-           'image' => 'required|max:1024|mimes:jpeg,png,jpg,pdf',
-           'descriptions' => 'nullable|min:3|max:250'
+            'name' => 'required|min:3|max:80|unique:brands,name',
+        //    'image' => 'required|max:1024|mimes:jpeg,png,jpg',
+        //    'descriptions' => 'nullable|min:3|max:250'
         ]);
-        $fileWithExtension = $request->file('image');
-      // dd($fileWithExtension);
-       if ($fileWithExtension) {
-            $filename = now()->format('dmy-his') . '-' . rand(1, 99) . '.' . $fileWithExtension->clientExtension();
-            $destinationPath = storage_path('app/public/images/brands/');
-              $img = Image::make($fileWithExtension->getRealPath())->resize(200, 200, function ($constraint) {
-                  $constraint->aspectRatio();
-                  $constraint->upSize();
-              });
-            $img->save($destinationPath . $filename, 85);
-       }
+    //     $fileWithExtension = $request->file('image');
+    //    dd($fileWithExtension);
+    //    if ($fileWithExtension) {
+    //         $filename = now()->format('dmy-his') . '-' . rand(1, 99) . '.' . $fileWithExtension->clientExtension();
+    //         $destinationPath = storage_path('app/public/images/brands/');
+    //           $img = Image::make($fileWithExtension->getRealPath())->resize(200, 200, function ($constraint) {
+    //               $constraint->aspectRatio();
+    //               $constraint->upSize();
+    //           });
+    //         $img->save($destinationPath . $filename, 85);
+    //    }
 
         $brand = new Brand();
         $brand->name = $request->name;
         $brand->slug = Str::slug($request->name);
-        $brand->image = $filename;
-        $brand->descriptions = $request->descriptions;
+        // $brand->image = $filename;
+        // $brand->descriptions = $request->descriptions;
         if ($brand->save()) {
             return redirect()->route('backend.brand.index')->with(['alert-type' => 'success', 'message' => 'Brand Stored Successfully']);
         }
@@ -70,28 +70,28 @@ class BrandController extends Controller
     {
         $request->validate([
             'name' => 'required|min:3|max:80|unique:brands,name,' .$id,
-            'image' => 'nullable|max:1024|mimes:jpeg,png,jpg,pdf',
-            'descriptions' => 'nullable|min:3|max:250'
+            // 'image' => 'nullable|max:1024|mimes:jpeg,png,jpg',
+            // 'descriptions' => 'nullable|min:3|max:250'
         ]);
 
-        $fileWithExtension = $request->file('image');
+       // $fileWithExtension = $request->file('image');
         $brand = Brand::findOrFail($id);
-        if ($request->has('image')) {
-            $filename = now()->format('dmy-his') . '-' . rand(1, 99) . '.' . $fileWithExtension->clientExtension();
-            $destinationPath = storage_path('app/public/images/brands/');
-            $img = Image::make($fileWithExtension->getRealPath())->resize(200, 200, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upSize();
-            });
-            $img->save($destinationPath . $filename, 85);
-            if ($brand->image) {
-                Storage::disk('public')->delete('images/brands/' . $brand->image);
-            }
-            $brand->image = $filename;
-        }
+        // if ($request->has('image')) {
+        //     $filename = now()->format('dmy-his') . '-' . rand(1, 99) . '.' . $fileWithExtension->clientExtension();
+        //     $destinationPath = storage_path('app/public/images/brands/');
+        //     $img = Image::make($fileWithExtension->getRealPath())->resize(200, 200, function ($constraint) {
+        //         $constraint->aspectRatio();
+        //         $constraint->upSize();
+        //     });
+        //     $img->save($destinationPath . $filename, 85);
+        //     if ($brand->image) {
+        //         Storage::disk('public')->delete('images/brands/' . $brand->image);
+        //     }
+        //     $brand->image = $filename;
+        // }
         $brand->name = $request->name;
         $brand->slug = Str::slug($request->name);
-        $brand->descriptions = $request->descriptions;
+        // $brand->descriptions = $request->descriptions;
         if ($brand->save()) {
             return redirect()->route('backend.brand.index')->with(['alert-type' => 'success', 'message' => 'Brand Update Successfully']);
         }
@@ -102,7 +102,10 @@ class BrandController extends Controller
     public function destroy($id)
     {
         $brand = Brand::findOrFail($id);
-        if ($brand->delete() && Storage::disk('public')->delete('images/brands/' . $brand->image)) {
+        if ($brand->products()->exists()) {
+            return redirect()->back()->with(['alert-type' => 'error', 'message' => 'Products exists in this Brand']);
+        }
+        if ($brand->delete()) {
             return redirect()->route('backend.brand.index')->with(['alert-type' => 'success', 'message' => 'Brand Deleted Successfully']);
         }
         return redirect()->back()->with(['alert-type' => 'error', 'message' => 'Something Went Wrong']);

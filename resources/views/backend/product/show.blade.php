@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Product - ' . $product->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -31,8 +31,7 @@
                         <div class="work-section">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="row">
-                                    </div>
+
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
@@ -92,32 +91,94 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Description</label><br>
-                                                <p class="label-title">{{ strip_tags($product->descriptions ?? '---') }}</p>
+                                                <label for="degree3" class="cust-title" class="label-title">Unit Sale
+                                                    Price</label><br>
+                                                <p class="label-title">{{ $product->unit_sale_price }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Skin
+                                                    Type</label><br>
+                                                <p class="label-title">{{ $product->skin_type ?? '----' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
-                                                    class="label-title">Images</label><br>
+                                                    class="label-title">material</label><br>
+                                                <p class="label-title">{{ $product->material ?? '----' }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Special
+                                                    Ingredients</label><br>
+                                                <p class="label-title">{{ $product->special_ingredients ?? '----' }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Care Instruction</label><br>
+                                                <p class="label-title">{{ $product->care_instruction ?? '----'}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Expiry</label><br>
+                                                <p class="label-title">{{ $product->expiry ?? '----' }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Net Quantity</label><br>
+                                                <p class="label-title">{{ $product->net_quantity ?? '----' }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree2" class="label-title cust-title">Thumbnail
+                                                    Image</label><br>
+                                                <span id="lightgallery1"><a class="text-primary font-weight-bold"
+                                                        href="{{ asset('storage/images/products/thumbnails/' . $product->thumbnail_image) }}">View</a>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Other
+                                                    Images</label><br>
                                                 <div class="d-flex flex-wrap">
-                                                    @forelse ($product->medias()->get() as $media)
-                                                        <img class="m-2 border"
-                                                            src="{{ asset('storage/images/products/' . $media->file_name) }}"
-                                                            height="150px" width="150px" alt="">
-                                                    @empty
-                                                    @endforelse
+                                                    <span id="lightgallery2">
+                                                        @forelse ($product->medias()->get()  as $key => $media)
+                                                            @if ($key == 0)
+                                                                <a href="{{ asset('storage/images/products/' . $media->file_name) }}"
+                                                                    type="button"
+                                                                    class="text-primary font-weight-bold float-right">
+                                                                    View
+                                                                </a>
+                                                            @else
+                                                                <a href="{{ asset('storage/images/products/' . $media->file_name) }}"
+                                                                    type="button" class="d-none">
+                                                                    View
+                                                                </a>
+                                                            @endif
+                                                        @empty
+                                                        @endforelse
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
+
                                         {{-- @dd($product_showcases) --}}
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Showcases</label><br>
                                                 @forelse ($product_showcases as $p_showcase)
-                                                    <p class="label-title">{{ $p_showcase->showcase->name }}
+                                                    <p class="label-title d-inline">
+                                                        {{ $p_showcase->showcase->name . ', ' }}
                                                     </p>
                                                 @empty
                                                     <p class="label-title">---</p>
@@ -125,28 +186,49 @@
 
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Attribute</label><br>
-                                                <div class="row">
-                                                    @forelse ($product_attributes as $product_attribute)
-                                                        <div class="col-md-6">
-                                                            <p class="label-title">
-                                                                {{ $product_attribute->attribute->name }}
-                                                            </p>
-                                                        </div>
+                                                @forelse ($product_attributes as $product_attribute)
+                                                    <p class="label-title">
+                                                        {{ $product_attribute->attribute->name . ' - ' . $product_attribute->value->name }}
+                                                    </p>
+                                                @empty
+                                                    <p class="label-title">---</p>
+                                                @endforelse
+                                            </div>
+                                        </div>
 
-                                                        @forelse ($product_attribute->value()->get() as $attVaule)
-                                                            <p class="label-title">{{ $attVaule->name }}
-                                                            </p>
-                                                        @empty
-                                                            <p class="label-title">---</p>
-                                                        @endforelse
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title" class="label-title">Short
+                                                    Description</label><br>
+                                                <p class="label-title">{{ $product->short_descriptions ?? '---' }}</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Tags</label><br>
+                                                <p class="label-title">
+                                                    @forelse ($product->tags as $tag)
+                                                        {{ $tag->name . ', ' }}
                                                     @empty
-                                                        <p class="label-title">---</p>
+                                                        ---
                                                     @endforelse
-                                                </div>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Description</label><br>
+                                                <p class="label-title">{!! $product->descriptions !!}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -166,6 +248,8 @@
     <link href="{{ asset('assets/css/components/tabs-accordian/custom-tabs.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('js')
+    <script src="{{ asset('plugins/lightgallery/js/lightgallery.min.js') }}"></script>
+    <script src="{{ asset('plugins/lightgallery/js/lg-zoom.js') }}"></script>>
     <script>
         $(document).ready(function() {
             $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
@@ -186,11 +270,17 @@
         <script src="{{ asset('js/lightgallery.js') }}"></script> --}}
     <script>
         $(document).ready(function() {
-            $("#lightgallery2").lightGallery({
+            lightGallery(document.getElementById('lightgallery1'), {
+                speed: 500,
                 download: false,
-                escKey: true,
-                fullScreen: true,
+                thumbnail: true,
             });
+            lightGallery(document.getElementById('lightgallery2'), {
+                speed: 500,
+                download: false,
+                thumbnail: true,
+            });
+            getValues();
         });
     </script>
 @endsection

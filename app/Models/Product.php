@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Models\Cart;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Product extends Model
 {
+    use SoftDeletes;
 
     protected $guarded = ['id'];
 
@@ -36,6 +38,11 @@ class Product extends Model
         return $this->hasMany(ShowcaseProduct::class);
     }
 
+    public function showcases()
+    {
+        return $this->belongsToMany(Showcase::class, 'showcase_products');
+    }
+
     public function ProductAttribute()
     {
         return $this->hasMany(ProductAttribute::class);
@@ -59,6 +66,11 @@ class Product extends Model
     public function values()
     {
         return $this->belongsToMany(AttributeValue::class, 'product_attributes');
+    }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function storeProductAttributes($attributes, $values, $product)

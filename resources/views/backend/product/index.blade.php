@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Products')
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -27,7 +27,7 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12 mt-2 px-xl-0">
+                        <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 mt-2 px-xl-0">
                             <form class="form-inline row app_form" action="{{ route('backend.product.index') }}"
                                 method="GET">
                                 <select class="form-control form-control-sm app_form_input col-md-3 mt-md-0 mt-3" name="brand">
@@ -58,7 +58,7 @@
                             @endif
                         </div>
                         <div
-                            class="align-items-center col-xl-5 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
+                            class="align-items-center col-xl-3 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
                             <a href="{{ route('backend.product.create') }}" name="txt"
                                 class="btn btn-primary mt-2 ml-3 ">
                                 Add Product
@@ -123,7 +123,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="5">No Records Found</td>
+                                            <td colspan="6">No Records Found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

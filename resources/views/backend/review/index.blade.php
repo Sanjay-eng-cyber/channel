@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Reviews - ' . $product->name)
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -95,18 +95,18 @@
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
                                                         <a class="dropdown-item"
-                                                            href="{{ route('backend.product.review.show', ['product_id' => $products->id, 'review_id' => $re->id]) }}">View</a>
+                                                            href="{{ route('backend.product.review.show', ['product_id' => $product->id, 'review_id' => $re->id]) }}">View</a>
                                                         <a class="dropdown-item"
-                                                            href="{{ route('backend.product.review.edit', ['product_id' => $products->id, 'review_id' => $re->id]) }}">Edit</a>
-                                                            <a class="dropdown-item"
-                                                            href="{{ route('backend.product.review.delete', ['product_id' => $products->id, 'review_id' => $re->id]) }}">Delete</a>
+                                                            href="{{ route('backend.product.review.edit', ['product_id' => $product->id, 'review_id' => $re->id]) }}">Edit</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('backend.product.review.delete', ['product_id' => $product->id, 'review_id' => $re->id]) }}">Delete</a>
                                                     </div>
                                                 </div>
 
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
+                                        <tr class="text-md-center">
                                             <td colspan="4">No Records Found</td>
                                         </tr>
                                     @endforelse
@@ -127,7 +127,7 @@
         </div>
     </div>
 
-        @endsection
-        @section('js')
+@endsection
+@section('js')
 
-        @endsection
+@endsection

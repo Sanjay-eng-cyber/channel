@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Transaction Details')
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="info statbox widget box box-shadow" >
+            <div class="info statbox widget box box-shadow">
                 <div class="row widget-header">
                     <div class="col-md-11">
                         <div class="work-section">
@@ -38,49 +38,61 @@
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title" class="label-title">Order
                                                     Id</label><br>
-                                                <p class="label-title">{{ $transactions->order_id }}</p>
+                                                <p class="label-title"> <a class="blue-col-a"
+                                                        href="{{ route('backend.order.show', $transaction->order_id) }}"
+                                                        target="target_blank">{{ $transaction->order_id }}</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">User</label><br>
+                                                <p class="label-title"> <a class="blue-col-a"
+                                                        href="{{ route('backend.user.show', $user->id) }}"
+                                                        target="target_blank">{{ $user->first_name . ' ' . $user->last_name }}</a>
+                                                </p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title" class="label-title">Pg Payment
                                                     Id</label><br>
-                                                <p class="label-title">{{ $transactions->pg_payment_id ?? '---' }}</p>
+                                                <p class="label-title">{{ $transaction->pg_payment_id ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title" class="label-title">Pg
                                                     Response</label><br>
-                                                <p class="label-title">{{ $transactions->pg_response ?? '---' }}</p>
+                                                <p class="label-title">{{ $transaction->pg_response ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title" class="label-title">Pg
                                                     Amount</label><br>
-                                                <p class="label-title">{{ $transactions->pg_amount ?? '---' }}</p>
+                                                <p class="label-title">{{ $transaction->pg_amount ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title" class="label-title">Pg
                                                     Status</label><br>
-                                                <p class="label-title">{{ $transactions->pg_status ?? '---' }}</p>
+                                                <p class="label-title">{{ $transaction->pg_status ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title" class="label-title">Payment
                                                     Type</label><br>
-                                                <p class="label-title">{{ $transactions->payment_type ?? '---' }}</p>
+                                                <p class="label-title">{{ $transaction->payment_type ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Amount</label><br>
-                                                <p class="label-title">{{ $transactions->amount }}</p>
+                                                <p class="label-title">{{ $transaction->amount }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -88,18 +100,18 @@
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Status</label><br>
                                                 <p class="label-title">
-                                                    @if ($transactions->status == 'initial')
+                                                    @if ($transaction->status == 'initial')
                                                         <label class="badge badge-primary"
-                                                            style="color:white">{{ $transactions->status }}</label>
-                                                    @elseif ($transactions->status == 'failed')
+                                                            style="color:white">{{ $transaction->status }}</label>
+                                                    @elseif ($transaction->status == 'failed')
                                                         <label class="badge badge-danger"
-                                                            style="color:white">{{ $transactions->status }}</label>
-                                                    @elseif ($transactions->status == 'pending')
+                                                            style="color:white">{{ $transaction->status }}</label>
+                                                    @elseif ($transaction->status == 'pending')
                                                         <label class="badge badge-warning"
-                                                            style="color:white">{{ $transactions->status }}</label>
+                                                            style="color:white">{{ $transaction->status }}</label>
                                                     @else
                                                         <label class="badge badge-success"
-                                                            style="color:white">{{ $transactions->status }}</label>
+                                                            style="color:white">{{ $transaction->status }}</label>
                                                     @endif
                                                 </p>
                                             </div>
@@ -108,7 +120,9 @@
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">Date</label><br>
-                                                <p class="label-title">{{ $transactions->transaction_date }}</p>
+                                                <p class="label-title">
+                                                    {{ $transaction->transaction_date ? dd_format($transaction->transaction_date, 'd-m-y h:ia') : '---' }}
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -125,36 +139,8 @@
     </div>
 @endsection
 @section('cdn')
-    <link href="{{ asset('assets/css/components/tabs-accordian/custom-tabs.css') }}" rel="stylesheet" type="text/css" />
 @endsection
 @section('js')
-    <script>
-        $(document).ready(function() {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            let activeTab = localStorage.getItem('activeTab');
-            if (activeTab) {
-                $('a[href="' + activeTab + '"]').tab('show');
-            }
-        })
-    </script>
-    <link type=" text/css" rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css" />
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/js/lightgallery.min.js') }}">
-    </script>
-    <script src="{{ asset('js/lg-zoom.min.js') }}"></script>
-    {{-- <link rel="stylesheet" type=" text/css" href="{{ asset('css/lightgallery.css') }}">
-        <script src="{{ asset('js/lightgallery.js') }}"></script> --}}
-    <script>
-        $(document).ready(function() {
-            $("#lightgallery2").lightGallery({
-                download: false,
-                escKey: true,
-                fullScreen: true,
-            });
-        });
-    </script>
 @endsection
 <style>
     .lg-icon {

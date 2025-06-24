@@ -971,7 +971,7 @@
 	.f-promo-box .f-widget-item .widget-icon {
 		font-size: 35px;
 		line-height: 40px;
-		margin: 0 16px 0 0;
+		margin: 0 0px 0 0;
 	}
 
 	.f-promo-box .f-widget-item .f-promo-box-heading {
@@ -1353,9 +1353,9 @@
 }
 
 @media only screen and (max-width: 767px) {
-	.mt-paddingbottomxs {
-		padding-bottom: 30px;
-	}
+	/* .mt-paddingbottomxs {
+		padding-bottom: 0px;
+	} */
 
 	.mt-nopaddingtopxs {
 		padding-top: 0 !important;
@@ -2774,7 +2774,7 @@
 	}
 
 	.mt-producttabs .producttabs {
-		font-size: 11px;
+		font-size: 14px;
 	}
 
 	.mt-producttabs .producttabs li {

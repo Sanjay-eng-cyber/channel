@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Users')
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing ">
@@ -27,11 +27,13 @@
                     </div>
                     <div class="row pl-2">
                         <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 mt-2">
-                            <form class="form-inline row app_form" action="{{ route('backend.user.index') }}" method="GET">
+                            <form class="form-inline row app_form" action="{{ route('backend.user.index') }}"
+                                method="GET">
                                 <input class="form-control form-control-sm app_form_input" type="text"
                                     placeholder="Name/Email/Phone" name="q" value="{{ request('q') ?? '' }}"
                                     minlength="3" maxlength="40">
-                                <input type="submit" value="Search" class="btn btn-success ml-0 ml-lg-4 ml-md-4 ml-sm-4  search_btn  search_btn_size ">
+                                <input type="submit" value="Search"
+                                    class="btn btn-success ml-0 ml-lg-4 ml-md-4 ml-sm-4  search_btn  search_btn_size ">
                             </form>
                             @if ($errors->has('q'))
                                 <div class="text-danger" role="alert">{{ $errors->first('q') }}
@@ -59,6 +61,7 @@
                                 <tr>
                                     <th>Sr no.</th>
                                     <th>Name</th>
+                                    <th>Phone No.</th>
                                     <th class="text-center">Action</th>
                                 </tr>
                             </thead>
@@ -66,7 +69,8 @@
                                 @forelse($users as $user)
                                     <tr>
                                         <td>{{ tableRowSrNo($loop->index, $users) }}</td>
-                                        <td>{{ $user->first_name }} {{ $user->last_name }}</td>
+                                        <td>{{ $user->first_name ?? '---' }}</td>
+                                        <td>{{ $user->phone ?? '---' }}</td>
                                         <td class="text-center">
                                             <div class="dropdown custom-dropdown">
                                                 <a class="dropdown-toggle" href="#" role="button"
@@ -83,7 +87,7 @@
                                                 </a>
 
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-                                                     <a class="dropdown-item"
+                                                    <a class="dropdown-item"
                                                         href="{{ route('backend.user.show', $user->id) }}">View</a>
                                                     {{-- <a class="dropdown-item"
                                                         href="{{ route('cms.user.edit', $user->id) }}">Edit</a> --}}
@@ -97,7 +101,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td class="text-center" colspan="3">No Records Found</td>
+                                        <td class="text-center" colspan="4">No Records Found</td>
                                     </tr>
                                 @endforelse
                             </tbody>

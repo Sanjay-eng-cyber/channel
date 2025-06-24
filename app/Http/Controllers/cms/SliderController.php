@@ -35,7 +35,7 @@ class SliderController extends Controller
             'title' => 'required|min:3|max:60',
             'descriptions' => 'nullable|min:3|max:120',
             'link' => 'required|min:3|max:120',
-            // 'image' => 'required|max:1024|mimes:jpeg,png,jpg,pdf',
+            // 'image' => 'required|max:1024|mimes:jpeg,png,jpg',
 
         ]);
         //dd($rightSliderCount);
@@ -102,50 +102,61 @@ class SliderController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'type' => 'required',
-            'title' => 'required|min:3|max:60',
+            // 'type' => 'required',
+            'title' => 'required|string|min:3|max:60',
             'descriptions' => 'nullable|min:3|max:120',
-            'link' => 'required|min:3|max:120',
+            'link' => 'required|url|min:3|max:200',
         ]);
+        $slider = Slider::findOrFail($id);
 
-        if ($request->type == 'middle slider') {
+        if ($slider->type == 'middle slider') {
             $request->validate([
-                'image' => 'nullable|max:1024|mimes:jpeg,png,jpg,pdf|dimensions:width=200,height=300',
+                'image' => 'nullable|max:1024|mimes:jpeg,png,jpg|dimensions:width=200,height=300',
+            ], [
+                'image.dimensions' => 'The image dimension should be 200x300',
             ]);
+            $width = 200;
+            $height = 300;
         }
-        if ($request->type == 'right slider') {
+        if ($slider->type == 'right slider') {
             $request->validate([
-                'image' => 'nullable|max:1024|mimes:jpeg,png,jpg,pdf|dimensions:width=250,height=150',
+                'image' => 'nullable|max:1024|mimes:jpeg,png,jpg|dimensions:width=250,height=150',
+            ], [
+                'image.dimensions' => 'The image dimensions should be 250x150',
             ]);
+            $width = 250;
+            $height = 150;
         }
-        if ($request->type == 'left slider') {
+        if ($slider->type == 'left slider') {
             $request->validate([
-                'image' => 'nullable|max:1024|mimes:jpeg,png,jpg,pdf|dimensions:width=500,height=700',
+                'image' => 'nullable|max:1024|mimes:jpeg,png,jpg|dimensions:width=500,height=700',
+            ], [
+                'image.dimensions' => 'The image dimensions should be 500x700',
             ]);
+            $width = 500;
+            $height = 700;
         }
 
         $fileWithExtension = $request->file('image');
-        $slider = Slider::findOrFail($id);
         if ($request->has('image')) {
             $filename = now()->format('dmy-his') . '-' . rand(1, 99) . '.' . $fileWithExtension->clientExtension();
             $destinationPath = storage_path('app/public/images/sliders/');
-            $img = Image::make($fileWithExtension->getRealPath())->resize(200, 200, function ($constraint) {
+            $img = Image::make($fileWithExtension->getRealPath())->resize($width, $height, function ($constraint) {
                 $constraint->aspectRatio();
                 $constraint->upSize();
             });
-            $img->save($destinationPath . $filename, 85);
+            $img->save($destinationPath . $filename, 90);
             if ($slider->image) {
                 Storage::disk('public')->delete('images/sliders/' . $slider->image);
             }
             $slider->image = $filename;
         }
-        $slider->type = $request->type;
+        // $slider->type = $request->type;
         $slider->title = $request->title;
         $slider->descriptions = $request->descriptions;
         $slider->link = $request->link;
-        $slider->descriptions = $request->descriptions;
         if ($slider->save()) {
-            return redirect()->route('backend.slider.index')->with(['alert-type' => 'success', 'message' => 'Slider Update Successfully']);
+            return redirect()->route('backend.slider.index')->with(['alert-type' => 'success', 'message' => 'Slider Updated Successfully']);
         }
         return redirect()->back()->with(['alert-type' => 'error', 'message' => 'Something Went Wrong']);
     }

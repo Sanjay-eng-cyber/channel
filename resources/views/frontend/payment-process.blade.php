@@ -63,7 +63,7 @@
 
                                                 <li>
                                                     <button type="button"
-                                                        class="btn btn-primary position-relative profile-s-bg-color">Home
+                                                        class="btn position-relative profile-s-bg-color">Home
 
                                                         <span
                                                             class="position-absolute top-0 start-100 translate-middle  bg-success border border-light rounded-circle profile-alert-icon">

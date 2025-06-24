@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Edit Brand - ' . $brand->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -28,7 +28,8 @@
                 <div class="row m-0">
                     <div class="col-12">
                         <form class="mt-3" method="POST" action="{{ route('backend.brand.update', $brand->id) }}"
-                            enctype="multipart/form-data" autocomplete="off">
+                            enctype="multipart/form-data" autocomplete="off"
+                            onsubmit="return confirm('Are you sure, you want to update?')">
                             @csrf
                             <div class="form-group mb-3 row">
                                 <div class="col-xl-12  col-md-6 col-sm-12">
@@ -40,7 +41,7 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('name') }}</div>
                                     @endif
                                 </div>
-                                <div class="col-xl-12  col-md-6 col-sm-12 py-2">
+                                {{-- <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="degree2">Image</label><br>
                                     @if ($brand->image)
                                         <img src="{{ asset('storage/images/brands/' . $brand->image) }}" height="150px"
@@ -52,8 +53,8 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('image') }}
                                         </div>
                                     @endif
-                                </div>
-                                <div class="col-xl-12  col-md-6 col-sm-12 py-2">
+                                </div> --}}
+                                {{-- <div class="col-xl-12  col-md-6 col-sm-12 py-2">
                                     <label for="degree2">Description</label>
                                     <textarea class="form-control" placeholder="Enter Description" rows="3" name="descriptions" minlength="3"
                                         maxlength="250">{{ old('descriptions', $brand->descriptions) }}</textarea>
@@ -61,10 +62,9 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
                                         </div>
                                     @endif
-                                </div>
+                                </div> --}}
                             </div>
-                            <input type="submit" class="btn btn-primary"
-                                onclick="return confirm('Are you sure, you want to update?')">
+                            <input type="submit" class="btn btn-primary">
                         </form>
                     </div>
                 </div>
@@ -75,4 +75,3 @@
 @endsection
 @section('js')
 @endsection
-

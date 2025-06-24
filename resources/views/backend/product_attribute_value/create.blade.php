@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Create Attribute Value')
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -8,7 +8,7 @@
                     <div class="row justify-content-between align-items-center ">
                         <div class="col-xl-5    mt-2 mb-2 ">
                             <legend class="h4">
-                                Create Product Attribute Value
+                                Create Attribute Value
                             </legend>
                         </div>
 
@@ -17,7 +17,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page"><a
-                                            href="javascript:void(0);">Create Product Attribute Value</a></li>
+                                            href="javascript:void(0);">Create Attribute Value</a></li>
                                 </ol>
                             </nav>
                         </div>
@@ -34,7 +34,7 @@
                                 <div class="col-xl-12  col-sm-12">
                                     <label for="formGroupExampleInput" class="">Name</label>
                                     <input type="text" class="form-control" id="formGroupExampleInput"
-                                        placeholder="Enter Name" minlength="3" maxlength="40" required name="name"
+                                        placeholder="Enter Name" minlength="2" maxlength="40" required name="name"
                                         value="{{ old('name') }}">
                                     @if ($errors->has('name'))
                                         <div class="text-danger" role="alert">{{ $errors->first('name') }}</div>

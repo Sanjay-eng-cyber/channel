@@ -54,10 +54,11 @@
                   <div class="dropdown-menu position-absolute" aria-labelledby="userProfileDropdown">
                       <div class="user-profile-section">
                           <div class="media mx-auto">
-                              <img src="assets/img/90x90.svg" class="img-fluid mr-2" alt="avatar">
+                              {{-- <img src="{{asset('backend/assets/img/90x90.svg')}}" class="img-fluid mr-2" alt="avatar"> --}}
                               <div class="media-body">
-                                  <h5>{{ ucfirst(auth()->user()->name) }}</h5>
-                                  <h5>{{ ucfirst(auth()->user()->role) }}</h5>
+                                <h5>Admin</h5>
+                                  {{-- <h5>{{ ucfirst(auth()->user()->name) }}</h5>
+                                  <h5>{{ ucfirst(auth()->user()->role) }}</h5> --}}
                                   <!-- <p>Project Leader</p> -->
                               </div>
                           </div>
@@ -362,6 +363,20 @@
                       </a>
                   </li>
                   <li class="menu">
+                      <a href="{{ route('backend.delivery.index') }}"
+                          aria-expanded="{{ route('backend.delivery.index') == request()->url() ? 'true' : 'false' }}"
+                          class="dropdown-toggle">
+                          <div class="">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28"
+                                  viewBox="0 0 24 24">
+                                  <path
+                                      d="M17,18C15.89,18 15,18.89 15,20A2,2 0 0,0 17,22A2,2 0 0,0 19,20C19,18.89 18.1,18 17,18M1,2V4H3L6.6,11.59L5.24,14.04C5.09,14.32 5,14.65 5,15A2,2 0 0,0 7,17H19V15H7.42A0.25,0.25 0 0,1 7.17,14.75C7.17,14.7 7.18,14.66 7.2,14.63L8.1,13H15.55C16.3,13 16.96,12.58 17.3,11.97L20.88,5.5C20.95,5.34 21,5.17 21,5A1,1 0 0,0 20,4H5.21L4.27,2M7,18C5.89,18 5,18.89 5,20A2,2 0 0,0 7,22A2,2 0 0,0 9,20C9,18.89 8.1,18 7,18Z" />
+                              </svg>
+                              <span>Deliveries</span>
+                          </div>
+                      </a>
+                  </li>
+                  <li class="menu">
                       <a href="{{ route('backend.transaction.index') }}"
                           aria-expanded="{{ route('backend.transaction.index') == request()->url() ? 'true' : 'false' }}"
                           class="dropdown-toggle">
@@ -443,7 +458,7 @@
                                   <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                                   <polyline points="9 22 9 12 15 12 15 22"></polyline>
                               </svg>
-                              <span>Product Attribute Values</span>
+                              <span>Attribute Values</span>
                           </div>
                       </a>
                   </li>

@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Order Details')
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -38,74 +38,183 @@
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
                                                     class="label-title">User</label><br>
-                                                <p class="label-title">{{ $order->user->first_name }} {{ $order->user->last_name }}</p>
+                                                <p class="label-title"><a
+                                                        href="{{ route('backend.user.show', $order->user_id) }}"
+                                                        class="cust-title"
+                                                        target="_blank">{{ $order->user->first_name ?? '---' }}
+                                                        {{ $order->user->last_name }}</a></p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Order Id</label><br>
-                                                <p class="label-title">{{ $order->api_order_id }}</p>
+                                                <label for="degree3" class="cust-title" class="label-title">Order
+                                                    Id</label><br>
+                                                <p class="label-title">{{ $order->api_order_id ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Delivery Id</label><br>
-                                                <p class="label-title">{{ $order->delivery_api_id }}</p>
+                                                <label for="degree3" class="cust-title" class="label-title">Order
+                                                    No.</label><br>
+                                                <p class="label-title">{{ $order->order_no ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Delivery Type</label><br>
-                                                <p class="label-title">{{ $order->delivery_type }}</p>
+                                                <label for="degree3" class="cust-title" class="label-title">Order
+                                                    Status</label><br>
+                                                <p class="label-title">
+                                                    @if ($order->status == 'initial')
+                                                        <label class="badge badge-primary"
+                                                            style="color:white">{{ $order->status }}</label>
+                                                    @elseif ($order->status == 'failed')
+                                                        <label class="badge badge-danger"
+                                                            style="color:white">{{ $order->status }}</label>
+                                                    @elseif ($order->status == 'completed')
+                                                        <label class="badge badge-success"
+                                                            style="color:white">{{ $order->status }}</label>
+                                                    @else
+                                                        <label class="badge badge-secondary"
+                                                            style="color:white">{{ $order->status }}</label>
+                                                    @endif
+                                                </p>
                                             </div>
                                         </div>
+
+
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Delivery Status</label><br>
-                                                <p class="label-title">{{ $order->delivery_status ?? '---' }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Sub Total</label><br>
+                                                <label for="degree3" class="cust-title" class="label-title">Sub
+                                                    Total</label><br>
                                                 <p class="label-title">{{ $order->sub_total }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Discount Amount</label><br>
-                                                <p class="label-title">{{ $order->discount_amount }}</p>
+                                                <label for="degree3" class="cust-title" class="label-title">Discount
+                                                    Amount</label><br>
+                                                <p class="label-title">{{ $order->discount_amount ?? '---' }}</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Total Amount</label><br>
+                                                <label for="degree3" class="cust-title" class="label-title">Total
+                                                    Amount</label><br>
                                                 <p class="label-title">{{ $order->total_amount }}</p>
                                             </div>
                                         </div>
+
                                         <div class="col-md-4">
                                             <div class="form-group">
-                                                <label for="degree3" class="cust-title"
-                                                    class="label-title">Status</label><br>
-                                                <p class="label-title">
-                                                    @if ($order->status == 'initial')
-                                                    <label class="badge badge-primary" style="color:white">{{ $order->status }}</label>
-                                                @elseif ($order->status == 'failed')
-                                                    <label class="badge badge-danger" style="color:white">{{ $order->status }}</label>
-                                                @else
-                                                    <label class="badge badge-success" style="color:white">{{ $order->status }}</label>
-                                                @endif
-                                            </p>
+                                                <label for="degree3" class="cust-title">Order Items</label><br>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('backend.order.items', $order->id) }}">View</a>
                                             </div>
                                         </div>
+                                        @if ($transaction)
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title">Transaction</label><br>
+                                                    <a class="btn btn-primary"
+                                                        href="{{ route('backend.transaction.show', $transaction->id) }}">View</a>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
+                                    @if ($order->status == 'completed' && !$order->deliveries->count())
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title" class="label-title">Create
+                                                        Delivery</label><br>
+                                                    <a href="{{ route('backend.order.delivery.create', $order->id) }}"
+                                                        class="btn btn-primary"
+                                                        onclick="return confirm('Are you sure you want to create delivery for this order?')">Create</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    @if ($delivery)
+                                        {{-- <div class="col-md-12"> --}}
+                                        <h3>Delivery Details</h3><br>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title"
+                                                        class="label-title">AWB Code</label><br>
+                                                    <p class="label-title">{{ $delivery->awb_code }}</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title" class="label-title">Shipment
+                                                        Id</label><br>
+                                                    <p class="label-title">{{ $delivery->shipment_id ?? '---' }}</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title" class="label-title">Partner
+                                                        Order
+                                                        Id</label><br>
+                                                    <p class="label-title">{{ $delivery->partner_order_id ?? '---' }}</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title"
+                                                        class="label-title">Delivered Date</label><br>
+                                                    <p class="label-title">
+                                                        {{ $delivery->delivered_date ? dd_format($delivery->delivered_date, 'd-M-Y -h:i a') : '---' }}
+                                                    </p>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title"
+                                                        class="label-title">Status</label><br>
+                                                    @if ($delivery->status == 'Pending')
+                                                        <label
+                                                            class="text-white badge badge-warning">{{ $delivery->status }}</label>
+                                                    @elseif ($delivery->status == 'Intransit')
+                                                        <label
+                                                            class="text-white badge badge-primary">{{ $delivery->status }}</label>
+                                                    @elseif ($delivery->status == 'Delivered')
+                                                        <label
+                                                            class="text-white badge badge-success">{{ $delivery->status }}</label>
+                                                    @else
+                                                        <label
+                                                            class="text-white badge badge-secondary">{{ $delivery->status ?? '--' }}</label>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title" class="label-title">Partner
+                                                        Status</label><br>
+                                                    <p class="label-title">{{ $delivery->partner_status ?? '---' }}</p>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label for="degree3" class="cust-title"
+                                                        class="label-title">Delivery</label><br>
+                                                    <a class="btn btn-primary"
+                                                        href="{{ route('backend.delivery.show', $delivery->id) }}">View</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- </div> --}}
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -119,36 +228,6 @@
     </div>
 @endsection
 @section('cdn')
-    <link href="{{ asset('assets/css/components/tabs-accordian/custom-tabs.css') }}" rel="stylesheet" type="text/css" />
-@endsection
-@section('js')
-    <script>
-        $(document).ready(function() {
-            $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
-                localStorage.setItem('activeTab', $(e.target).attr('href'));
-            });
-            let activeTab = localStorage.getItem('activeTab');
-            if (activeTab) {
-                $('a[href="' + activeTab + '"]').tab('show');
-            }
-        })
-    </script>
-    <link type=" text/css" rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/css/lightgallery.min.css" />
-    <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.12/js/lightgallery.min.js') }}">
-    </script>
-    <script src="{{ asset('js/lg-zoom.min.js') }}"></script>
-    {{-- <link rel="stylesheet" type=" text/css" href="{{ asset('css/lightgallery.css') }}">
-        <script src="{{ asset('js/lightgallery.js') }}"></script> --}}
-    <script>
-        $(document).ready(function() {
-            $("#lightgallery2").lightGallery({
-                download: false,
-                escKey: true,
-                fullScreen: true,
-            });
-        });
-    </script>
 @endsection
 <style>
     .lg-icon {

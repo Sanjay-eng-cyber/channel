@@ -10,7 +10,7 @@
                 <p>All the products once sold, cannot be exchanged, refunded and return. However, in
                     the interest of the customer, In case of receipt of defective product, All you need to
                     do is email us within 24 hours from the receipt of product at
-                    channeltheshop@yahoo.co.in and/ or you may call at our Customer Care at
+                    support@channelonline.in and/ or you may call at our Customer Care at
                     <a href="tel:+917710062724" class="font-weight-bold">+917710062724</a>. All eligible order shall be
                     exchanged with same SKU subject to
                     availability of stock.

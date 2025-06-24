@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Sliders')
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -22,9 +22,6 @@
                                 </ol>
                             </nav>
                         </div>
-
-
-
                     </div>
                     <div class="row">
                         {{-- <div class="col-xl-7 col-lg-8 col-md-12 col-sm-12 mb-2">
@@ -44,11 +41,12 @@
                         <div class="col-xl-7 col-lg-8 col-md-12 col-sm-12 mb-2">
                         </div>
 
-                        <div class="align-items-center col-xl-5 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
-                            <a href="{{ route('backend.slider.create') }}" name="txt"
+                        <div
+                            class="align-items-center col-xl-5 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
+                            {{-- <a href="{{ route('backend.slider.create') }}" name="txt"
                                 class="btn btn-primary mt-2 ml-3 ">
                                 Add New Slider
-                            </a>
+                            </a> --}}
                         </div>
 
                     </div>
@@ -63,9 +61,9 @@
                                 <thead>
                                     <tr>
                                         <th>Sr no.</th>
-                                        <th>title</th>
+                                        <th>Title</th>
                                         <th>Type</th>
-                                        <th>Image</th>
+                                        <th class="text-center">Image</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -74,11 +72,17 @@
                                         <tr>
                                             <td>{{ tableRowSrNo($loop->index, $sliders) }}</td>
                                             <td>{{ $slider->title }}</td>
-                                            <td>{{ $slider->type }}</td>
-                                            <td>
-                                                <img src="{{ asset('storage/images/sliders/' . $slider->image) }}"
-                                                height="150px" width="150px" alt="">
+                                            <td>{{ ucwords($slider->type) }}</td>
+                                            <td class="text-center">
+                                                <span class="lightgallery1">
+                                                    <a href="{{ asset('storage/images/sliders/' . $slider->image) }}">
+                                                        <img src="{{ asset('storage/images/sliders/' . $slider->image) }}"
+                                                            style="height: 150px;width:150px;object-fit:contain;"
+                                                            alt="">
+                                                    </a>
+                                                </span>
                                             </td>
+
                                             <td class="text-center">
                                                 <div class="dropdown custom-dropdown">
                                                     <a class="dropdown-toggle" href="#" role="button"
@@ -99,16 +103,16 @@
                                                             href="{{ route('backend.slider.show', $slider->id) }}">View</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('backend.slider.edit', $slider->id) }}">Edit</a>
-                                                            <a class="dropdown-item"
-                                                            href="{{ route('backend.slider.destroy', $slider->id) }}">Delete</a>
+                                                        {{-- <a class="dropdown-item"
+                                                            href="{{ route('backend.slider.destroy', $slider->id) }}">Delete</a> --}}
                                                     </div>
                                                 </div>
 
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="4">No Records Found</td>
+                                        <tr class="text-md-center">
+                                            <td colspan="5">No Records Found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -128,7 +132,19 @@
         </div>
     </div>
 
-        @endsection
-        @section('js')
-
-        @endsection
+@endsection
+@section('js')
+    <script src="{{ asset('plugins/lightgallery/js/lightgallery.min.js') }}"></script>
+    <script src="{{ asset('plugins/lightgallery/js/lg-zoom.js') }}"></script>>
+    <script>
+        $(document).ready(function() {
+            $(".lightgallery1").each(function() {
+                lightGallery(this, {
+                    speed: 500,
+                    download: false,
+                    thumbnail: true,
+                });
+            });
+        });
+    </script>
+@endsection

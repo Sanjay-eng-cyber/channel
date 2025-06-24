@@ -29,7 +29,7 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|min:3|max:40|unique:attributes,name,',
+            'name' => 'required|min:3|max:40|unique:attributes,name',
         ]);
         $attribute = new Attribute();
         $attribute->name = $request->name;
@@ -54,7 +54,7 @@ class AttributeController extends Controller
         $attribute = Attribute::findOrFail($id);
         $attribute->name = $request->name;
         if ($attribute->save()) {
-            return redirect()->route('backend.attribute.index')->with(['alert-type' => 'success', 'message' => 'Attribute Update Successfully']);
+            return redirect()->route('backend.attribute.index')->with(['alert-type' => 'success', 'message' => 'Attribute Updated Successfully']);
         }
         return redirect()->back()->with(['alert-type' => 'error', 'message' => 'Something Went Wrong']);
     }
@@ -62,6 +62,10 @@ class AttributeController extends Controller
     public function destroy($id)
     {
         $attribute = Attribute::findOrFail($id);
+        // dd($attribute->products()->count());
+        if ($attribute->values()->exists() || $attribute->products()->exists()) {
+            return redirect()->back()->with(['alert-type' => 'error', 'message' => 'Product / Values Exists With This Attribute']);
+        }
         if ($attribute->delete()) {
             return redirect()->route('backend.attribute.index')->with(['alert-type' => 'success', 'message' => 'Attribute Deleted Successfully']);
         }

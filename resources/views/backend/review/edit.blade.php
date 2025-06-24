@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Review Edit - ' . $product->name)
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -27,10 +27,20 @@
             <div class="statbox widget box box-shadow col-md-6">
                 <div class="row m-0">
                     <div class="col-12">
-                        <form class="mt-3" method="POST" action="{{ route('backend.product.review.update', ['product_id' => $products->id, 'review_id' => $reviews->id]) }}"
+                        <form class="mt-3" method="POST"
+                            action="{{ route('backend.product.review.update', ['product_id' => $product->id, 'review_id' => $reviews->id]) }}"
                             enctype="multipart/form-data" autocomplete="off">
                             @csrf
                             <div class="form-group mb-3 row">
+                                <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12">
+                                    <label for="formGroupExampleInput">Title</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput"
+                                        placeholder="Enter Title" required name="title"
+                                        value="{{ old('title') ?? $reviews->title }}" minlength="3" maxlength="120">
+                                    @if ($errors->has('title'))
+                                        <div class="text-danger" role="alert">{{ $errors->first('title') }}</div>
+                                    @endif
+                                </div>
                                 <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12">
                                     <label for="formGroupExampleInput">Rating</label>
                                     <input type="text" class="form-control" id="formGroupExampleInput"
@@ -42,8 +52,8 @@
                                 </div>
                                 <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
                                     <label for="degree2">Description</label>
-                                    <textarea class="form-control" placeholder="Enter Description" rows="3" name="body" minlength="5"
-                                        maxlength="120" required>{{ old('body', $reviews->body) }}</textarea>
+                                    <textarea class="form-control" placeholder="Enter Description" rows="3" name="body" minlength="3"
+                                        maxlength="1000" required>{{ old('body', $reviews->body) }}</textarea>
                                     @if ($errors->has('body'))
                                         <div class="text-danger" role="alert">{{ $errors->first('body') }}
                                         </div>
@@ -63,4 +73,3 @@
 @endsection
 @section('js')
 @endsection
-

@@ -34,7 +34,7 @@ class ProductAttributeController extends Controller
     {
         $attribute = Attribute::pluck('id')->toArray();
         $request->validate([
-            'name' => 'required|min:3|max:40|unique:attribute_values,name,',
+            'name' => 'required|min:2|max:40|unique:attribute_values,name',
             'attribute_id' => ['required', Rule::in($attribute)],
         ]);
         $product_attribute_value = new AttributeValue();
@@ -58,7 +58,7 @@ class ProductAttributeController extends Controller
     {
         $attribute = Attribute::pluck('id')->toArray();
         $request->validate([
-            'name' => 'required|min:3|max:40|unique:attribute_values,name,' . $id,
+            'name' => 'required|min:2|max:40|unique:attribute_values,name,' . $id,
             'attribute_id' => ['required', Rule::in($attribute)],
         ]);
 
@@ -74,13 +74,9 @@ class ProductAttributeController extends Controller
     public function destroy($id)
     {
         $product_attribute_value = AttributeValue::findOrFail($id);
-        // if ($product_attribute_value->delete()) {
-        //     return redirect()->route('backend.product_attribute_value.index')->with(['alert-type' => 'success', 'message' => 'Product Attribute Value Deleted Successfully']);
-        // }
-        // return redirect()->back()->with(['alert-type' => 'error', 'message' => 'Something Went Wrong']);
-        $productattributeexist = ProductAttribute::where('attribute_value_id', $id);
-        //dd($productattributeexist);
-        if (!$productattributeexist->exists()) {
+        $productAttributeExists = ProductAttribute::where('attribute_value_id', $id)->exists();
+        //dd($productAttributeExists);
+        if (!$productAttributeExists) {
             if ($product_attribute_value->delete()) {
                 return redirect()->route('backend.product_attribute_value.index')->with(
                     [

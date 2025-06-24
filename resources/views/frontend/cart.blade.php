@@ -1,27 +1,12 @@
 @extends('frontend.layouts.app')
 @section('title', 'Cart |')
 @section('cdn')
-
-    <style>
-        /* @media screen and (max-width:768px) {
-                                                                                                                                                                                        .__cart-ui-img-in {
-                                                                                                                                                                                            padding-right: 28px;
-                                                                                                                                                                                        }
-                                                                                                                                                                                    }
-
-                                                                                                                                                                                    @media screen and (max-width: 480px) {
-                                                                                                                                                                                        .__cart-ui-card .__cart-ui-close-btn {
-                                                                                                                                                                                            position: absolute;
-                                                                                                                                                                                            top: -13px;
-                                                                                                                                                                                            padding: 15px;
-                                                                                                                                                                                            right: -86%;
-                                                                                                                                                                                        }
-                                                                                                                                                                                    } */
-    </style>
     <link rel="stylesheet" href="{{ url('frontend/css/profile.css') }}">
 @endsection
 @section('content')
-    <x-frontend.profile-nav image="https://via.placeholder.com/300" name="users name" />
+    @auth
+        @include('components.frontend.profile-nav-div')
+    @endauth
 
     <section class="my-1">
         <div class="container">
@@ -36,21 +21,20 @@
 
     <div id="cart_div">
         {{-- @if ($cartItems) --}}
-        <section style="padding:15px 0px 65px 0px" v-if="cartItems.length != 0">
+        <section class="my-0 my-3" style="" v-if="cartItems.length != 0">
             <div class="container">
-                <h5 class="h5 main-head text-center text-red my-3">Cart</h5>
+                <h3 class="h2 main-head text-center text-red my-0 my-sm-3">Cart</h3>
                 <div class="row d-flex flex-md-row">
                     <div class="col-md-8 col-lg-9 __cart-ui-f">
-
-                        <div class="row d-flex justify-content-center justify-content-lg-end __cart-ui-nav">
+                        <div class="row d-flex justify-content-center justify-content-lg-end __cart-ui-nav mx-1">
                             <div class="col-sm-12 px-0">
                                 <div
-                                    class="d-flex cc-border justify-content-between p-3 justify-content-between __cart-ui-nav-des">
-                                    <div class="fw-bold">Product</div>
+                                    class="d-none d-lg-flex cc-border justify-content-between p-3 justify-content-between __cart-ui-nav-des">
+                                    <div class="fw-bold px-5">Product</div>
                                     <ul class="d-flex gap-5 list-unstyled p-0 m-0">
-                                        <li class="fw-bold">Price</li>
-                                        <li class="fw-bold">Quantity</li>
-                                        <li class="fw-bold">Total</li>
+                                        <li class="fw-bold px-4 px-xl-3 px-xxl-5">Price</li>
+                                        <li class="fw-bold px-2 px-xl-2 px-xxl-3">Quantity</li>
+                                        <li class="fw-bold px-2 px-xl-3 px-xxl-4">Total</li>
                                     </ul>
 
                                 </div>
@@ -58,20 +42,22 @@
                         </div>
 
                         <div v-for="(item,key) in cartItems" :key="key">
-                            <div class="row cc-border my-3 __cart-ui-card" style="padding:15px">
+                            <div class="row cc-border my-3 mx-1  __cart-ui-card" style="padding:15px">
                                 <div class="__cart-ui-close-btn"><button type="button" class="btn-close" aria-label="Close"
                                         @click="removeItemFromCart(key,item['item_id'])"></button>
                                 </div>
                                 <div class=" col-md-4 col-lg-3">
-                                    <div class="d-flex align-items-center justify-content-center gap-1 __cart-ui-img-in">
-                                        <img :src="item['thumbnail_image']" alt="..." class="img-fluid img-border">
+                                    <div
+                                        class="d-flex align-items-center justify-content-center justify-content-md-start gap-1 __cart-ui-img-in">
+                                        <img :src="item['thumbnail_image']" alt="..." class="img-fluid img-border"
+                                            style="max-width: 146px;max-height: 146px;object-fit: contain;">
                                         {{-- <img :src="asset('storage/images/products/'.item['thumbnail_image'])" alt="..."
                                         class="img-fluid img-border"> --}}
                                     </div>
                                 </div>
 
                                 <div
-                                    class="col-md-8 col-lg-4  justify-content-md-start justify-content-center mt-3 mt-md-0 d-flex align-items-center">
+                                    class="col-md-8 col-lg-3 col-xl-4  justify-content-md-start justify-content-center mt-3 mt-md-0 d-flex align-items-center    ">
                                     <div class="">
                                         <h5 class="main-head">@{{ item['name'] }}</h5>
                                         {{-- <p class="p-0 __cart-ui-pra">
@@ -82,7 +68,7 @@
                                 </div>
 
                                 <div
-                                    class="col-md-12 col-lg-5 d-flex justify-content-center align-items-center justify-content-between flex-row flex-lg-column flex-xl-row my-3 my-lg-0">
+                                    class="col-md-12 col-lg-6 col-xl-5 d-flex justify-content-center align-items-center justify-content-between flex-row my-3 my-lg-0">
                                     <ul class="p-0 m-0">
                                         <li class="no-bullet "><s class="text-muted">₹@{{ item['mrp'] }}</s></li>
                                         <li class="no-bullet  "><strong>₹@{{ item['final_price'] }}</strong></li>
@@ -97,20 +83,13 @@
                                         <button type="button" class="input-group-text increase-quantity"
                                             @click="increaseQuantity(key,item['id'])">+</button>
                                     </div>
-                                    <div class="d-none d-md-inline">
+                                    <div class="d-md-inline">
                                         ₹@{{ item['total_price'] }}
                                     </div>
                                 </div>
                             </div>
 
                         </div>
-
-                        {{-- <div class="pagination d-flex justify-content-center py-2">
-                        <ul class="pagination text-center">
-                            {{ $cartItems->appends(Request::all())->links('pagination::bootstrap-4') }}
-                        </ul>
-                    </div> --}}
-
                     </div>
                     <div class="col-md-4 col-lg-3">
                         <div class="padding-order-summary">
@@ -133,10 +112,11 @@
 
                     </div>
                 </div>
+            </div>
         </section>
         {{-- @else --}}
         <div v-if="cartItems.length == 0">
-            @include('frontend.not-found')
+            @include('frontend.not-found', ['type' => 'Cart'])
         </div>
         {{-- @endif --}}
 
@@ -283,7 +263,6 @@
             },
             async created() {
                 this.getCartItems();
-                console.log('created') // 30
             }
         }).mount('#cart_div')
     </script>

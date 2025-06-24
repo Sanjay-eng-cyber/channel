@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Sub Categories')
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -9,7 +9,7 @@
                     <div class="row justify-content-between align-items-center mb-1 ">
                         <div class="col-lg-4 col-md-12 col-sm-12">
                             <legend class="h4">
-                                Sub Category
+                                Sub Categories
                             </legend>
                         </div>
 
@@ -18,7 +18,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page"><a
-                                            href="javascript:void(0);">Sub Category</a></li>
+                                            href="javascript:void(0);">Sub Categories</a></li>
                                 </ol>
                             </nav>
                         </div>
@@ -107,7 +107,7 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
+                                        <tr class="text-md-center">
                                             <td colspan="4">No Records Found</td>
                                         </tr>
                                     @endforelse

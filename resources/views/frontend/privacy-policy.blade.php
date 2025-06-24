@@ -211,7 +211,7 @@
                 <p>We maintain reasonable safeguards for this website to protect against unauthorised
                     disclosure, use, alteration or destruction of the personal information you provide on
                     ‘Channel Online. If you have any questions about security at our Site, you can email
-                    us at channeltheshop@yahoo.co.in </p>
+                    us at support@channelonline.in </p>
                 <h5 class="pb-2">Privacy Policy Updates </h5>
                 <p>We may revise this Privacy Policy from time to time. If we decide to change our
                     Privacy Policy, we will post the revised policy here. We suggest that you periodically
@@ -224,4 +224,4 @@
 
 
 
-@endsection 
+@endsection

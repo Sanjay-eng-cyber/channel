@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Edit - ' . ucwords($slider->type))
 @section('content')
     <div class="layout-px-spacing row layout-top-spacing m-0">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -33,7 +33,7 @@
                             <div class="form-group mb-4 row">
                                 <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12">
                                     <label for="formGroupExampleInput" class="">Type</label>
-                                    <select name="type" class="form-control" id="formGroupExampleInput" required>
+                                    <select name="type" class="form-control" id="formGroupExampleInput" disabled>
                                         <option value="">Select Any</option>
                                         @if (old('type'))
                                             <option value="right slider"
@@ -61,45 +61,50 @@
                                         <div class="text-danger" role="alert">{{ $errors->first('type') }}</div>
                                     @endif
                                 </div>
-                                    <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
-                                        <label for="formGroupExampleInput" class="">Title</label>
-                                        <input type="text" class="form-control" id="formGroupExampleInput"
-                                            placeholder="Enter Title" minlength="3" maxlength="60" required name="title"
-                                            value="{{ old('title') ?? $slider->title }}">
-                                        @if ($errors->has('title'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('title') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12">
-                                        <label for="formGroupExampleInput" class="">Link</label>
-                                        <input type="text" class="form-control" id="formGroupExampleInput"
-                                            placeholder="Enter link" minlength="3" maxlength="120" required name="link"
-                                            value="{{ old('link') ?? $slider->link}}">
-                                        @if ($errors->has('link'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('link') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
-                                        <label for="formGroupExampleInput" class="">Image</label><br>
-                                        <img src="{{ asset('storage/images/sliders/' . $slider->image) }}"
-                                        height="150px" width="150px" alt="">
-                                        <input type="file" class="form-control" id="formGroupExampleInput"
-                                            name="image">
-                                        @if ($errors->has('image'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('image') }}</div>
-                                        @endif
-                                    </div>
-                                    <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
-                                        <label for="degree2">Description</label>
-                                        <textarea class="form-control" placeholder="Enter Description" rows="3" name="descriptions" minlength="3"
-                                            maxlength="120">{{ old('descriptions') ?? $slider->descriptions}}</textarea>
-                                        @if ($errors->has('descriptions'))
-                                            <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
-                                            </div>
-                                        @endif
-                                    </div>
+                                <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
+                                    <label for="formGroupExampleInput" class="">Title</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput"
+                                        placeholder="Enter Title" minlength="3" maxlength="60" required name="title"
+                                        value="{{ old('title') ?? $slider->title }}">
+                                    @if ($errors->has('title'))
+                                        <div class="text-danger" role="alert">{{ $errors->first('title') }}</div>
+                                    @endif
                                 </div>
-                                <input type="submit" class="btn btn-primary">
+                                <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12">
+                                    <label for="formGroupExampleInput" class="">Link</label>
+                                    <input type="text" class="form-control" id="formGroupExampleInput"
+                                        placeholder="Enter link" minlength="3" maxlength="200" required name="link"
+                                        value="{{ old('link') ?? $slider->link }}">
+                                    @if ($errors->has('link'))
+                                        <div class="text-danger" role="alert">{{ $errors->first('link') }}</div>
+                                    @endif
+                                </div>
+                                <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
+                                    <label for="formGroupExampleInput" class="">Image</label><br>
+                                    @if ($slider->image)
+                                        <span id="lightgallery1">
+                                            <a href="{{ asset('storage/images/sliders/' . $slider->image) }}">
+                                                <img src="{{ asset('storage/images/sliders/' . $slider->image) }}"
+                                                    style="height: 150px;width:150px;object-fit:contain;" alt="">
+                                            </a>
+                                        </span>
+                                    @endif
+                                    <input type="file" class="form-control" id="formGroupExampleInput" name="image">
+                                    @if ($errors->has('image'))
+                                        <div class="text-danger" role="alert">{{ $errors->first('image') }}</div>
+                                    @endif
+                                </div>
+                                <div class="col-xl-12 col-lg-4 col-md-6 col-sm-12 py-2">
+                                    <label for="degree2">Description</label>
+                                    <textarea class="form-control" placeholder="Enter Description" rows="3" name="descriptions" minlength="3"
+                                        maxlength="120">{{ old('descriptions') ?? $slider->descriptions }}</textarea>
+                                    @if ($errors->has('descriptions'))
+                                        <div class="text-danger" role="alert">{{ $errors->first('descriptions') }}
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-primary">
                         </form>
                     </div>
                 </div>
@@ -108,4 +113,15 @@
     </div>
 @endsection
 @section('js')
+    <script src="{{ asset('plugins/lightgallery/js/lightgallery.min.js') }}"></script>
+    <script src="{{ asset('plugins/lightgallery/js/lg-zoom.js') }}"></script>>
+    <script>
+        $(document).ready(function() {
+            lightGallery(document.getElementById('lightgallery1'), {
+                speed: 500,
+                download: false,
+                thumbnail: true,
+            });
+        });
+    </script>
 @endsection

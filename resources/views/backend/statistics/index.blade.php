@@ -161,6 +161,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-4 col-md-6 col-sm-12 col-12 layout-spacing mt-sm-0 mt-3">
+                            <div class="widget widget-one_hybrid widget-referral h-100 px-2 py-3">
+                                <div class="widget-heading p-0 m-0">
+                                    <h4 class="text-center">Amount</h4>
+                                    <div class="w-title justify-content-center align-items-center">
+                                        <div class="w-icon">
+                                            <i class="far fa-chart-bar big-font-icon"> </i>
+                                        </div>
+                                        <div class="">
+                                            <p class="w-value">{{ $completedOrdersAmount }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <a href="{{route('backend.order.index')}}" class="btn btn-outline-primary mx-auto">
+                                            <small><i class="far fa-edit"> </i></small> Manage
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>

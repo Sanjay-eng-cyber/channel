@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Attributes')
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -47,7 +47,7 @@
                         <div class="align-items-center col-xl-5 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
                             <a href="{{ route('backend.attribute.create') }}" name="txt"
                                 class="btn btn-primary mt-2 ml-3 ">
-                                Add New Attribute
+                                Add Attribute
                             </a>
                         </div>
 
@@ -100,8 +100,8 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="4">No Records Found</td>
+                                        <tr class="text-md-center">
+                                            <td colspan="3">No Records Found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>

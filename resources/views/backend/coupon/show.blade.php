@@ -8,7 +8,7 @@
                     <div class="row justify-content-between align-items-center mb-1 ">
                         <div class="col-xl-4 col-md-6  mt-2 mb-1">
                             <legend class="h4">
-                                Attribute Details
+                                Coupon Details
                             </legend>
                         </div>
 
@@ -17,7 +17,7 @@
                                 <ol class="breadcrumb">
                                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                                     <li class="breadcrumb-item active" aria-current="page"><a
-                                            href="javascript:void(0);">Attribute Details</a></li>
+                                            href="javascript:void(0);">Coupon Details</a></li>
                                 </ol>
                             </nav>
                         </div>
@@ -37,8 +37,62 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="degree3" class="cust-title"
-                                                    class="label-title">Attribute Name</label><br>
-                                                <p class="label-title">{{ $attribute->name }}</p>
+                                                    class="label-title">Name</label><br>
+                                                <p class="label-title">{{ $coupon->name }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Code</label><br>
+                                                <p class="label-title">{{ $coupon->code }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Type</label><br>
+                                                <p class="label-title">{{ $coupon->type }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Rate</label><br>
+                                                <p class="label-title">{{ $coupon->rate }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Value</label><br>
+                                                <p class="label-title">{{ $coupon->value }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Max Usage</label><br>
+                                                <p class="label-title">{{ $coupon->max_usage }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Valid From</label><br>
+                                                <p class="label-title">{{ dd_format($coupon->valid_from, 'd-m-Y h:i') }}</p>
+                                            </div>
+                                        </div><div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Valid Till</label><br>
+                                                <p class="label-title">{{ dd_format($coupon->valid_till, 'd-m-Y h:i') }}</p>
+                                            </div>
+                                        </div><div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="degree3" class="cust-title"
+                                                    class="label-title">Min Order Amount</label><br>
+                                                <p class="label-title">{{ $coupon->min_order_amount }}</p>
                                             </div>
                                         </div>
                                     </div>

@@ -18,9 +18,8 @@ class CreateProductsTable extends Migration
             $table->foreignId('brand_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
             $table->foreignId('sub_category_id')->nullable()->constrained()->onDelete('cascade');
-            $table->string('connection_no')->nullable();
-            $table->TINYTEXT ('name');
-            $table->TINYTEXT ('slug');
+            $table->tinyText('name');
+            $table->tinyText('slug');
             $table->longText('short_descriptions')->nullable();
             $table->longText('descriptions')->nullable();
             $table->string('thumbnail_image')->nullable();
@@ -28,7 +27,16 @@ class CreateProductsTable extends Migration
             $table->float('final_price');
             $table->bigInteger('stock');
             $table->string('sku')->unique()->nullable();
-            $table->float('rating')->nullable();
+            $table->string('unit_sale_price')->nullable();
+            $table->string('rating')->nullable();
+            $table->string('skin_type')->nullable();
+            $table->string('material')->nullable();
+            $table->longText('special_ingredients')->nullable();
+            $table->longText('care_instruction')->nullable();
+            $table->string('expiry')->nullable();
+            $table->string('net_quantity')->nullable();
+            $table->boolean('visibility')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

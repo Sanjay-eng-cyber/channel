@@ -1,5 +1,5 @@
 @extends('backend.layouts.app')
-@section('title', 'Dashboard')
+@section('title', 'Coupons')
 @section('content')
     <div class="row layout-top-spacing m-0 pa-padding-remove">
         <div id="tableDropdown" class="col-lg-12 col-12 layout-spacing">
@@ -44,7 +44,8 @@
                         <div class="col-xl-7 col-lg-8 col-md-12 col-sm-12 mb-2">
                         </div>
 
-                        <div class="align-items-center col-xl-5 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
+                        <div
+                            class="align-items-center col-xl-5 col-lg-4 col-md-12 col-sm-12 d-flex justify-content-end row mb-2">
                             <a href="{{ route('backend.coupon.create') }}" name="txt"
                                 class="btn btn-primary mt-2 ml-3 ">
                                 Add New Coupon
@@ -64,6 +65,11 @@
                                     <tr>
                                         <th>Sr no.</th>
                                         <th>Name</th>
+                                        <th>Rate</th>
+                                        <th>Value</th>
+                                        <th>Valid From</th>
+                                        <th>Valid Till</th>
+                                        <th>Usage</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -72,6 +78,11 @@
                                         <tr>
                                             <td>{{ tableRowSrNo($loop->index, $coupons) }}</td>
                                             <td>{{ $coupon->name }}</td>
+                                            <td>{{ ucfirst($coupon->rate) }}</td>
+                                            <td>{{ $coupon->value }}</td>
+                                            <td>{{ dd_format($coupon->valid_from, 'd-m-y h:ia') }}</td>
+                                            <td>{{ dd_format($coupon->valid_till, 'd-m-y h:ia') }}</td>
+                                            <td>{{ $coupon->couponUsage->count() }}</td>
                                             <td class="text-center">
                                                 <div class="dropdown custom-dropdown">
                                                     <a class="dropdown-toggle" href="#" role="button"
@@ -88,11 +99,14 @@
                                                     </a>
 
                                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-                                                        {{-- <a class="dropdown-item"
-                                                            href="{{ route('backend.coupon.show', $coupon->id) }}">View</a> --}}
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('backend.coupon.show', $coupon->id) }}">View</a>
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('backend.couponUsages.index', $coupon->id) }}">Coupon
+                                                            Usages</a>
                                                         <a class="dropdown-item"
                                                             href="{{ route('backend.coupon.edit', $coupon->id) }}">Edit</a>
-                                                            <a class="dropdown-item"
+                                                        <a class="dropdown-item"
                                                             href="{{ route('backend.coupon.destroy', $coupon->id) }}">Delete</a>
                                                     </div>
                                                 </div>
@@ -100,8 +114,8 @@
                                             </td>
                                         </tr>
                                     @empty
-                                        <tr>
-                                            <td colspan="4">No Records Found</td>
+                                        <tr class="text-md-center">
+                                            <td colspan="6">No Records Found</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -121,7 +135,7 @@
         </div>
     </div>
 
-        @endsection
-        @section('js')
+@endsection
+@section('js')
 
-        @endsection
+@endsection
